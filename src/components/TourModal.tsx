@@ -29,6 +29,7 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [income, setIncome] = useState("");
 
   // Preload video once on mount so first click plays instantly
   useEffect(() => {
@@ -57,6 +58,7 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
     if (!open) return;
     setShowForm(false);
     setSubmitting(false);
+    setIncome("");
 
     const v = videoRef.current;
     if (!v) return;
@@ -210,17 +212,18 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
                 </Field>
 
                 <Field label="Proof of Income">
-                  <Select name="income">
+                  <Select value={income} onValueChange={setIncome}>
                     <SelectTrigger className="bookField">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="z-[200]">
                       <SelectItem value="paystub">Pay stub available</SelectItem>
                       <SelectItem value="offer">Offer letter</SelectItem>
                       <SelectItem value="bank">Bank statement</SelectItem>
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
+                  <input type="hidden" name="income" value={income} />
                 </Field>
 
                 <Field label="Message">
