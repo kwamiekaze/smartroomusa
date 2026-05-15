@@ -78,13 +78,8 @@ const Index = () => {
       <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
         <HeroMedia videoSrc="/hero.mp4" />
 
-        {/* Top headline overlay — kept short so the video stays visible */}
-        <div className="container relative z-10 pt-24 md:pt-28">
-          <h1 className="font-serif text-cream text-4xl sm:text-5xl md:text-6xl leading-[1.1] max-w-3xl drop-shadow-lg animate-fade-in-slow">
-            Premium smart room living{" "}
-            <span className="italic text-gradient-gold">in Atlanta</span>
-          </h1>
-        </div>
+        {/* SR-only h1 for SEO/accessibility — visual hero kept clean */}
+        <h1 className="sr-only">Premium smart room living in Atlanta</h1>
 
         <div className="flex-1" />
 
