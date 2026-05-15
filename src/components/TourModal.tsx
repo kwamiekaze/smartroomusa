@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { X, CalendarDays } from "lucide-react";
+import { X, Calendar as CalendarIcon } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,31 +17,30 @@ interface TourModalProps {
   onClose: () => void;
 }
 
+const TOUR_VIDEO = "/tour.mp4";
+const TOUR_POSTER = "/tour-last.jpg";
+
 /**
- * Plays the splash/tour video full-screen, then transitions into a
- * book-style "Schedule a Tour" form on the last frame.
+ * Cinematic tour-request experience: plays a short luxury intro video,
+ * then transitions seamlessly into a booklet-style form whose layout
+ * matches the final frame of the video.
  */
 export const TourModal = ({ open, onClose }: TourModalProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Reset state whenever modal opens
+  // Preload video once on mount so first click plays instantly
   useEffect(() => {
-    if (open) {
-      setShowForm(false);
-      setSubmitting(false);
-      // try to play (some browsers need explicit call)
-      const v = videoRef.current;
-      if (v) {
-        v.currentTime = 0;
-        v.play().catch(() => {
-          // autoplay blocked — show form straight away
-          setShowForm(true);
-        });
-      }
-    }
-  }, [open]);
+    const v = document.createElement("video");
+    v.src = TOUR_VIDEO;
+    v.preload = "auto";
+    v.muted = true;
+    // hint browser to fetch
+    try {
+      v.load();
+    } catch {}
+  }, []);
 
   // Lock body scroll while open
   useEffect(() => {
@@ -54,13 +52,45 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
     };
   }, [open]);
 
-  const handleVideoEnd = () => {
-    // freeze on last frame
+  // Reset + start playback whenever modal opens
+  useEffect(() => {
+    if (!open) return;
+    setShowForm(false);
+    setSubmitting(false);
+
+    const v = videoRef.current;
+    if (!v) return;
+
+    let cancelled = false;
+    const tryPlay = async (attempt = 0) => {
+      try {
+        v.muted = true;
+        v.currentTime = 0;
+        await v.play();
+      } catch {
+        if (cancelled) return;
+        if (attempt < 2) {
+          setTimeout(() => tryPlay(attempt + 1), 120);
+        } else {
+          // Give up gracefully -> jump straight to form
+          setShowForm(true);
+        }
+      }
+    };
+    tryPlay();
+    return () => {
+      cancelled = true;
+    };
+  }, [open]);
+
+  const finishVideo = () => {
     const v = videoRef.current;
     if (v) {
       try {
         v.pause();
-        v.currentTime = Math.max(0, (v.duration || 0) - 0.05);
+        if (v.duration && isFinite(v.duration)) {
+          v.currentTime = Math.max(0, v.duration - 0.05);
+        }
       } catch {}
     }
     setShowForm(true);
@@ -72,93 +102,78 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
     setTimeout(() => {
       setSubmitting(false);
       toast.success("Tour request received", {
-        description: "We'll reach out shortly to confirm your tour.",
+        description: "We'll reach out shortly to confirm your visit.",
       });
       onClose();
-    }, 400);
+    }, 500);
   };
 
   if (!open) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[120] bg-black flex items-center justify-center animate-in fade-in duration-300"
+      className="fixed inset-0 z-[120] bg-black animate-in fade-in duration-200"
       role="dialog"
       aria-modal="true"
       aria-label="Schedule a tour"
     >
-      {/* Video stays mounted as the backdrop; final frame remains visible behind the form */}
+      {/* Cinematic intro video — also the visual backdrop on the form step */}
       <video
         ref={videoRef}
-        src="/splash.mp4"
+        src={TOUR_VIDEO}
+        poster={TOUR_POSTER}
         autoPlay
         muted
         playsInline
-        onEnded={handleVideoEnd}
+        preload="auto"
+        onEnded={finishVideo}
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* Skip button — only while video plays */}
+      {/* Skip — only while video is playing */}
       {!showForm && (
         <button
           type="button"
-          onClick={handleVideoEnd}
+          onClick={finishVideo}
           aria-label="Skip intro"
-          className="absolute top-4 right-4 z-10 h-10 w-10 grid place-items-center rounded-full bg-black/50 backdrop-blur text-white/90 hover:bg-black/70 transition"
+          className="absolute top-4 right-4 z-30 h-10 w-10 grid place-items-center rounded-full bg-black/45 backdrop-blur text-white/90 hover:bg-black/70 transition"
         >
           <X className="h-5 w-5" />
         </button>
       )}
 
-      {/* Close button — once form is visible */}
+      {/* Close — once form is visible */}
       {showForm && (
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 z-20 h-10 w-10 grid place-items-center rounded-full bg-black/60 backdrop-blur text-white hover:bg-black/80 transition"
+          className="absolute top-4 right-4 z-30 h-10 w-10 grid place-items-center rounded-full bg-black/60 backdrop-blur text-white hover:bg-black/80 transition"
         >
           <X className="h-5 w-5" />
         </button>
       )}
 
-      {/* Form — appears after video ends, styled like an open journal page */}
+      {/* Form — booklet styled to match the final video frame */}
       {showForm && (
-        <div className="absolute inset-0 z-10 overflow-y-auto bg-black/55 backdrop-blur-sm animate-in fade-in duration-500">
-          <div className="min-h-full flex items-start sm:items-center justify-center p-3 sm:p-6">
+        <div className="absolute inset-0 z-20 overflow-y-auto animate-in fade-in duration-500">
+          <div className="min-h-full flex items-start sm:items-center justify-center px-3 py-6 sm:p-8">
             <div
-              className="relative w-full max-w-md sm:max-w-lg rounded-[20px] p-5 sm:p-8 shadow-2xl border animate-in zoom-in-95 slide-in-from-bottom-4 duration-500"
+              className="relative w-full max-w-[440px] sm:max-w-[480px] rounded-[6px] px-6 sm:px-9 py-7 sm:py-9 animate-in zoom-in-95 duration-500"
               style={{
                 background:
-                  "linear-gradient(180deg, #f6ecd8 0%, #efe1c4 100%)",
-                borderColor: "rgba(120, 80, 30, 0.35)",
+                  "linear-gradient(180deg, #f5ecd9 0%, #efe2c4 100%)",
                 boxShadow:
-                  "0 25px 60px -10px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.5)",
+                  "0 35px 80px -20px rgba(0,0,0,0.85), 0 10px 30px -10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.6)",
               }}
             >
-              {/* Decorative book spine line */}
-              <div className="absolute left-0 top-6 bottom-6 w-1 rounded-r bg-[rgba(120,80,30,0.25)]" />
-
-              <div className="text-center mb-5 sm:mb-6">
-                <div className="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#6b4a1f]">
-                  <CalendarDays className="h-3.5 w-3.5" />
-                  Schedule a Tour
-                </div>
-                <h2
-                  className="font-serif text-2xl sm:text-3xl mt-2 text-[#1a1a1a]"
-                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-                >
-                  Reserve Your Visit
-                </h2>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <Field label="Full Name">
                   <Input
                     name="name"
                     required
-                    placeholder="Jane Doe"
-                    className="bg-transparent border-[#1a1a1a]/70 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 rounded-lg h-11"
+                    autoComplete="name"
+                    className="bookField"
                   />
                 </Field>
 
@@ -167,8 +182,9 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
                     name="phone"
                     type="tel"
                     required
-                    placeholder="(555) 555-5555"
-                    className="bg-transparent border-[#1a1a1a]/70 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 rounded-lg h-11"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    className="bookField"
                   />
                 </Field>
 
@@ -177,23 +193,30 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
                     name="email"
                     type="email"
                     required
-                    placeholder="you@email.com"
-                    className="bg-transparent border-[#1a1a1a]/70 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 rounded-lg h-11"
+                    autoComplete="email"
+                    inputMode="email"
+                    className="bookField"
                   />
                 </Field>
 
                 <Field label="Desired Move-In Date">
-                  <Input
-                    name="movein"
-                    type="date"
-                    required
-                    className="bg-transparent border-[#1a1a1a]/70 text-[#1a1a1a] rounded-lg h-11"
-                  />
+                  <div className="relative">
+                    <Input
+                      name="movein"
+                      type="date"
+                      required
+                      className="bookField pr-12"
+                    />
+                    <CalendarIcon
+                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#1a1a1a]"
+                      aria-hidden
+                    />
+                  </div>
                 </Field>
 
                 <Field label="Proof of Income">
                   <Select name="income">
-                    <SelectTrigger className="bg-transparent border-[#1a1a1a]/70 text-[#1a1a1a] rounded-lg h-11">
+                    <SelectTrigger className="bookField">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -208,19 +231,18 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
                 <Field label="Message">
                   <Textarea
                     name="message"
-                    rows={3}
-                    placeholder="Anything we should know?"
-                    className="bg-transparent border-[#1a1a1a]/70 text-[#1a1a1a] placeholder:text-[#1a1a1a]/40 rounded-lg resize-none"
+                    rows={4}
+                    className="bookField !h-auto py-2.5 resize-none"
                   />
                 </Field>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full mt-2 rounded-xl py-3.5 font-semibold text-[#1a1a1a] text-base sm:text-lg shadow-md hover:shadow-lg transition active:scale-[0.99] disabled:opacity-70"
+                  className="w-full mt-2 rounded-[10px] py-4 font-bold text-[#1a1a1a] text-lg shadow-md hover:brightness-105 transition active:scale-[0.99] disabled:opacity-70"
                   style={{
                     background:
-                      "linear-gradient(180deg, #e8a93a 0%, #d18a1e 100%)",
+                      "linear-gradient(180deg, #e6a83a 0%, #d18a1e 100%)",
                   }}
                 >
                   {submitting ? "Submitting…" : "Submit Tour Request"}
@@ -241,8 +263,10 @@ const Field = ({
   label: string;
   children: React.ReactNode;
 }) => (
-  <div className="space-y-1.5">
-    <Label className="text-[#1a1a1a] font-semibold text-sm">{label}</Label>
+  <div className="space-y-2">
+    <Label className="block text-[#0c0c0c] font-bold text-[15px] tracking-tight">
+      {label}
+    </Label>
     {children}
   </div>
 );
