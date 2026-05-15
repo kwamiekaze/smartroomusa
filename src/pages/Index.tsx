@@ -68,6 +68,8 @@ const SectionTitle = ({ eyebrow, title, sub }: { eyebrow?: string; title: string
 );
 
 const Index = () => {
+  const [tourOpen, setTourOpen] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success("Booking request received", { description: "We'll reach out shortly to confirm your move-in." });
@@ -76,6 +78,7 @@ const Index = () => {
   return (
     <div id="top" className="min-h-screen bg-background text-foreground">
       <SplashScreen />
+      <TourModal open={tourOpen} onClose={() => setTourOpen(false)} />
       <Navbar />
 
       {/* HERO */}
