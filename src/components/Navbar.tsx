@@ -27,19 +27,12 @@ export const Navbar = () => {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-md animate-fade-in">
+        <div className="border-t border-border/40 bg-background/95 backdrop-blur-md animate-fade-in">
           <div className="container py-4 flex flex-col gap-3">
             {links.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-cream py-2">{l.label}</a>
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-cream py-2 hover:text-primary transition-smooth">{l.label}</a>
             ))}
-            <div className="flex gap-2 pt-2">
-              <Button asChild variant="outlineGold" size="sm" className="flex-1">
-                <a href="tel:4040000000"><Phone /> Call</a>
-              </Button>
-              <Button asChild variant="gold" size="sm" className="flex-1">
-                <a href="#booking" onClick={() => setOpen(false)}>Book</a>
-              </Button>
-            </div>
+            <a href="tel:4040000000" onClick={() => setOpen(false)} className="text-primary py-2">Call (404) 000-0000</a>
           </div>
         </div>
       )}
