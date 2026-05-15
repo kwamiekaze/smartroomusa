@@ -76,7 +76,7 @@ const Index = () => {
 
       {/* HERO */}
       <section className="relative min-h-[100svh] flex items-center pt-20 overflow-hidden">
-        <HeroMedia />
+        <HeroMedia videoSrc="/hero.mp4" />
         <div className="container relative z-10 py-20 md:py-32">
           <div className="max-w-3xl animate-fade-in-slow">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-primary mb-6">
