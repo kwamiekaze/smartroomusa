@@ -92,8 +92,9 @@ const Index = () => {
 
         {/* Schedule a Tour — calendar-shaped CTA, bottom-left */}
         <div className="absolute z-10 left-4 bottom-6 sm:left-6 sm:bottom-8 md:left-10 md:bottom-10">
-          <a
-            href="#booking"
+          <button
+            type="button"
+            onClick={() => setTourOpen(true)}
             aria-label="Schedule a tour"
             className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 rounded-xl overflow-hidden bg-card/90 backdrop-blur-md border border-primary/50 shadow-gold hover:-translate-y-1 hover:shadow-glow transition-luxe"
           >
@@ -108,7 +109,7 @@ const Index = () => {
               <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-primary mb-0.5" />
               <span className="font-serif text-cream text-[11px] sm:text-xs leading-tight text-center">Schedule<br/>a Tour</span>
             </div>
-          </a>
+          </button>
         </div>
       </section>
 
