@@ -10,6 +10,8 @@ import { HeroMedia } from "@/components/HeroMedia";
 import { Reveal } from "@/components/Reveal";
 import { Navbar } from "@/components/Navbar";
 import { SplashScreen } from "@/components/SplashScreen";
+import { TourModal } from "@/components/TourModal";
+import { useState } from "react";
 
 const PHONE_DISPLAY = "(404) 000-0000"; // TODO: replace with real number
 const PHONE_HREF = "tel:4040000000";    // TODO: replace with real number
@@ -66,6 +68,8 @@ const SectionTitle = ({ eyebrow, title, sub }: { eyebrow?: string; title: string
 );
 
 const Index = () => {
+  const [tourOpen, setTourOpen] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success("Booking request received", { description: "We'll reach out shortly to confirm your move-in." });
@@ -74,6 +78,7 @@ const Index = () => {
   return (
     <div id="top" className="min-h-screen bg-background text-foreground">
       <SplashScreen />
+      <TourModal open={tourOpen} onClose={() => setTourOpen(false)} />
       <Navbar />
 
       {/* HERO */}
@@ -87,8 +92,9 @@ const Index = () => {
 
         {/* Schedule a Tour — calendar-shaped CTA, bottom-left */}
         <div className="absolute z-10 left-4 bottom-6 sm:left-6 sm:bottom-8 md:left-10 md:bottom-10">
-          <a
-            href="#booking"
+          <button
+            type="button"
+            onClick={() => setTourOpen(true)}
             aria-label="Schedule a tour"
             className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 rounded-xl overflow-hidden bg-card/90 backdrop-blur-md border border-primary/50 shadow-gold hover:-translate-y-1 hover:shadow-glow transition-luxe"
           >
@@ -103,7 +109,7 @@ const Index = () => {
               <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-primary mb-0.5" />
               <span className="font-serif text-cream text-[11px] sm:text-xs leading-tight text-center">Schedule<br/>a Tour</span>
             </div>
-          </a>
+          </button>
         </div>
       </section>
 
@@ -146,8 +152,8 @@ const Index = () => {
                 <div className="my-8 gold-divider" />
                 <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Total Move-In Cost</p>
                 <p className="font-serif text-5xl sm:text-7xl md:text-8xl text-gradient-gold mt-2 tracking-tight whitespace-nowrap">$489.00</p>
-                <Button asChild variant="gold" size="lg" className="mt-8">
-                  <a href="#booking">Reserve Your Room</a>
+                <Button onClick={() => setTourOpen(true)} variant="gold" size="lg" className="mt-8">
+                  Reserve Your Room
                 </Button>
               </div>
             </div>
