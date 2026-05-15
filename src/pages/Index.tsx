@@ -83,16 +83,25 @@ const Index = () => {
 
         <div className="flex-1" />
 
-        {/* Bottom pill CTAs — small, like debiesewing.com */}
-        <div className="relative z-10 pb-10 md:pb-14">
-          <div className="container flex items-center justify-center gap-3 sm:gap-4">
-            <Button asChild variant="gold" size="default" className="rounded-full px-6 shadow-gold">
-              <a href="#booking">✦ Book Now ✦</a>
-            </Button>
-            <Button asChild variant="outlineGold" size="default" className="rounded-full px-6">
-              <a href="#cost">Prices &amp; Services</a>
-            </Button>
-          </div>
+        {/* Schedule a Tour — calendar-shaped CTA, bottom-left */}
+        <div className="absolute z-10 left-4 bottom-6 sm:left-6 sm:bottom-8 md:left-10 md:bottom-10">
+          <a
+            href="#booking"
+            aria-label="Schedule a tour"
+            className="group relative flex flex-col items-center w-24 sm:w-28 md:w-32 rounded-xl overflow-hidden bg-card/90 backdrop-blur-md border border-primary/50 shadow-gold hover:-translate-y-1 hover:shadow-glow transition-luxe"
+          >
+            {/* Calendar header */}
+            <div className="w-full bg-gradient-gold py-1.5 flex items-center justify-center gap-1.5">
+              <span className="h-1.5 w-1 rounded-full bg-primary-foreground/80" />
+              <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-primary-foreground uppercase">Tour</span>
+              <span className="h-1.5 w-1 rounded-full bg-primary-foreground/80" />
+            </div>
+            {/* Calendar body */}
+            <div className="px-3 py-2 sm:py-3 flex flex-col items-center">
+              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1" />
+              <span className="font-serif text-cream text-xs sm:text-sm leading-tight text-center">Schedule<br/>a Tour</span>
+            </div>
+          </a>
         </div>
       </section>
 
