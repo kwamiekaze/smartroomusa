@@ -14,18 +14,24 @@ export const SplashScreen = () => {
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
     if (!isMobile) return;
     setShow(true);
-    // Lock scroll while splash is up
+  }, []);
+
+  useEffect(() => {
+    if (!show) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, []);
+  }, [show]);
 
   const dismiss = () => {
     if (fading) return;
     setFading(true);
-    setTimeout(() => setShow(false), 350);
+    setTimeout(() => {
+      setShow(false);
+      document.body.style.overflow = "";
+    }, 350);
   };
 
   if (!show) return null;
