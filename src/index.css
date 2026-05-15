@@ -106,17 +106,38 @@
 
 /* Booklet form fields used inside TourModal */
 .bookField {
-  width: 100%;
-  height: 52px;
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  box-sizing: border-box !important;
   background: transparent !important;
   color: #0c0c0c !important;
   border: 2px solid #0c0c0c !important;
   border-radius: 10px !important;
-  padding: 0 14px;
-  font-size: 16px; /* prevents iOS zoom on focus */
-  font-weight: 500;
+  padding: 0 14px !important;
+  font-size: 16px !important; /* prevents iOS zoom on focus */
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
   box-shadow: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
 }
+/* Normalize native date input on iOS/Safari so it matches text inputs */
+input.bookField[type="date"] {
+  display: block;
+  text-align: left;
+  font-family: inherit;
+}
+input.bookField[type="date"]::-webkit-date-and-time-value { text-align: left; }
+input.bookField[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  width: 44px;
+  height: 100%;
+  cursor: pointer;
+}
+textarea.bookField { height: auto !important; min-height: 110px !important; padding: 12px 14px !important; }
 .bookField::placeholder { color: rgba(12,12,12,0.4); }
 .bookField:focus, .bookField:focus-visible {
   outline: none !important;
