@@ -227,7 +227,7 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
                   <Textarea
                     name="message"
                     rows={4}
-                    className="bookField !h-auto py-2.5 resize-none"
+                    className="bookField resize-none"
                   />
                 </Field>
 
