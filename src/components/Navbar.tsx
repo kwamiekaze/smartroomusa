@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Phone, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
+import { WeatherPill } from "@/components/WeatherPill";
 
 const links = [
   { href: "#requirements", label: "Move-In" },
@@ -8,39 +8,20 @@ const links = [
   { href: "#included", label: "Included" },
   { href: "#experience", label: "Experience" },
   { href: "#faq", label: "FAQ" },
+  { href: "#booking", label: "Book a Room" },
 ];
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/40">
+    <header className="fixed top-0 left-0 right-0 z-50">
       <div className="container flex h-16 items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 group">
-          <span className="h-9 w-9 rounded-full bg-gradient-gold grid place-items-center font-serif text-primary-foreground font-bold shadow-gold">S</span>
-          <span className="font-serif text-lg tracking-wide text-cream">
-            Smart Room <span className="text-gradient-gold">USA</span>
-          </span>
-        </a>
-
-        <nav className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm text-muted-foreground hover:text-primary transition-smooth">
-              {l.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden md:flex items-center gap-3">
-          {/* TODO: replace tel number */}
-          <Button asChild variant="outlineGold" size="sm">
-            <a href="tel:4040000000"><Phone /> Call Now</a>
-          </Button>
-          <Button asChild variant="gold" size="sm">
-            <a href="#booking">Book a Room</a>
-          </Button>
-        </div>
-
-        <button className="md:hidden text-cream p-2" onClick={() => setOpen(!open)} aria-label="Menu">
+        <WeatherPill />
+        <button
+          className="text-cream p-2 rounded-full bg-background/60 backdrop-blur-md border border-border/40"
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+        >
           {open ? <X /> : <Menu />}
         </button>
       </div>
