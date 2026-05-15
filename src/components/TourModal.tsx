@@ -58,6 +58,7 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
     if (!open) return;
     setShowForm(false);
     setSubmitting(false);
+    setIncome("");
 
     const v = videoRef.current;
     if (!v) return;
