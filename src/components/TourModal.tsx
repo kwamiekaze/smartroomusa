@@ -98,14 +98,10 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      toast.success("Tour request received", {
-        description: "We'll reach out shortly to confirm your visit.",
-      });
-      onClose();
-    }, 500);
+    toast.success("Booking request received", {
+      description: "We'll reach out shortly to confirm your move-in.",
+    });
+    onClose();
   };
 
   if (!open) return null;
