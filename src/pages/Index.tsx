@@ -75,48 +75,29 @@ const Index = () => {
       <Navbar />
 
       {/* HERO */}
-      <section className="relative min-h-[100svh] flex items-center pt-20 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
         <HeroMedia videoSrc="/hero.mp4" />
-        <div className="container relative z-10 py-20 md:py-32">
-          <div className="max-w-3xl animate-fade-in-slow">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-primary mb-6">
-              <span className="h-px w-10 bg-primary/70" />
-              Premium Smart Room Living
-            </div>
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cream leading-[1.05]">
-              Smart Room <span className="text-gradient-gold">USA</span>
-            </h1>
-            <p className="mt-6 font-serif italic text-2xl md:text-3xl text-champagne">
-              Come stay with us
-            </p>
-            <p className="mt-6 text-base md:text-lg text-cream/80 max-w-xl leading-relaxed">
-              Affordable smart room living with simple weekly move-in pricing, shared amenities,
-              utilities, WiFi, and a straightforward qualification process.
-            </p>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <Button asChild variant="gold" size="xl" className="animate-glow-pulse">
-                <a href="#booking"><Calendar /> Book a Room</a>
-              </Button>
-              <Button asChild variant="outlineGold" size="xl">
-                <a href={PHONE_HREF}><Phone /> Call Now</a>
-              </Button>
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-2">
-              {trustChips.map((c) => (
-                <span key={c} className="text-xs md:text-sm px-4 py-2 rounded-full border border-primary/30 bg-background/40 backdrop-blur-md text-cream/90">
-                  {c}
-                </span>
-              ))}
-            </div>
-          </div>
+        {/* Top headline overlay — kept short so the video stays visible */}
+        <div className="container relative z-10 pt-24 md:pt-28">
+          <h1 className="font-serif text-cream text-4xl sm:text-5xl md:text-6xl leading-[1.1] max-w-3xl drop-shadow-lg animate-fade-in-slow">
+            Premium smart room living{" "}
+            <span className="italic text-gradient-gold">in Atlanta</span>
+          </h1>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-cream/60">
-          <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-          <span className="h-10 w-px bg-gradient-to-b from-primary to-transparent" />
+        <div className="flex-1" />
+
+        {/* Bottom pill CTAs — small, like debiesewing.com */}
+        <div className="relative z-10 pb-10 md:pb-14">
+          <div className="container flex items-center justify-center gap-3 sm:gap-4">
+            <Button asChild variant="gold" size="default" className="rounded-full px-6 shadow-gold">
+              <a href="#booking">✦ Book Now ✦</a>
+            </Button>
+            <Button asChild variant="outlineGold" size="default" className="rounded-full px-6">
+              <a href="#cost">Prices &amp; Services</a>
+            </Button>
+          </div>
         </div>
       </section>
 
