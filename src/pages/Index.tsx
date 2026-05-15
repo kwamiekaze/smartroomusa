@@ -98,7 +98,7 @@ const Index = () => {
             </div>
             {/* Calendar body */}
             <div className="px-3 py-2 sm:py-3 flex flex-col items-center">
-              <CalendarIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1" />
+              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1" />
               <span className="font-serif text-cream text-xs sm:text-sm leading-tight text-center">Schedule<br/>a Tour</span>
             </div>
           </a>
