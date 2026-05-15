@@ -152,8 +152,8 @@ const Index = () => {
                 <div className="my-8 gold-divider" />
                 <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Total Move-In Cost</p>
                 <p className="font-serif text-5xl sm:text-7xl md:text-8xl text-gradient-gold mt-2 tracking-tight whitespace-nowrap">$489.00</p>
-                <Button asChild variant="gold" size="lg" className="mt-8">
-                  <a href="#booking">Reserve Your Room</a>
+                <Button onClick={() => setTourOpen(true)} variant="gold" size="lg" className="mt-8">
+                  Reserve Your Room
                 </Button>
               </div>
             </div>
