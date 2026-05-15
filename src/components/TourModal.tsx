@@ -113,18 +113,20 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
       aria-modal="true"
       aria-label="Schedule a tour"
     >
-      {/* Cinematic intro video — also the visual backdrop on the form step */}
-      <video
-        ref={videoRef}
-        src={TOUR_VIDEO}
-        poster={TOUR_POSTER}
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-        onEnded={finishVideo}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      {/* Cinematic intro video — hidden once form is shown so transition is seamless */}
+      {!showForm && (
+        <video
+          ref={videoRef}
+          src={TOUR_VIDEO}
+          poster={TOUR_POSTER}
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          onEnded={finishVideo}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
 
       {/* Skip — only while video is playing */}
       {!showForm && (
@@ -138,24 +140,27 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
         </button>
       )}
 
-      {/* Close — once form is visible */}
+      {/* Form — styled to match the final frame of the video exactly */}
       {showForm && (
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute top-4 right-4 z-30 h-10 w-10 grid place-items-center rounded-full bg-black/60 backdrop-blur text-white hover:bg-black/80 transition"
+        <div
+          className="absolute inset-0 z-20 overflow-y-auto animate-in fade-in duration-300"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, #3a2418 0%, #1a0f08 70%, #0a0604 100%)",
+          }}
         >
-          <X className="h-5 w-5" />
-        </button>
-      )}
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="fixed top-4 right-4 z-30 h-10 w-10 grid place-items-center rounded-full bg-black/60 backdrop-blur text-white hover:bg-black/80 transition"
+          >
+            <X className="h-5 w-5" />
+          </button>
 
-      {/* Form — booklet styled to match the final video frame */}
-      {showForm && (
-        <div className="absolute inset-0 z-20 overflow-y-auto animate-in fade-in duration-500">
-          <div className="min-h-full flex items-start sm:items-center justify-center px-3 py-6 sm:p-8">
+          <div className="min-h-full flex justify-center px-4 py-6 sm:py-10">
             <div
-              className="relative w-full max-w-[440px] sm:max-w-[480px] rounded-[6px] px-6 sm:px-9 py-7 sm:py-9 animate-in zoom-in-95 duration-500"
+              className="relative w-full max-w-[520px] px-6 sm:px-10 py-8 sm:py-10"
               style={{
                 background:
                   "linear-gradient(180deg, #f5ecd9 0%, #efe2c4 100%)",
@@ -165,44 +170,20 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
             >
               <form onSubmit={handleSubmit} className="space-y-5">
                 <Field label="Full Name">
-                  <Input
-                    name="name"
-                    required
-                    autoComplete="name"
-                    className="bookField"
-                  />
+                  <Input name="name" required autoComplete="name" className="bookField" />
                 </Field>
 
                 <Field label="Phone Number">
-                  <Input
-                    name="phone"
-                    type="tel"
-                    required
-                    autoComplete="tel"
-                    inputMode="tel"
-                    className="bookField"
-                  />
+                  <Input name="phone" type="tel" required autoComplete="tel" inputMode="tel" className="bookField" />
                 </Field>
 
                 <Field label="Email">
-                  <Input
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    inputMode="email"
-                    className="bookField"
-                  />
+                  <Input name="email" type="email" required autoComplete="email" inputMode="email" className="bookField" />
                 </Field>
 
                 <Field label="Desired Move-In Date">
                   <div className="relative">
-                    <Input
-                      name="movein"
-                      type="date"
-                      required
-                      className="bookField pr-12"
-                    />
+                    <Input name="movein" type="date" required className="bookField pr-12" />
                     <CalendarIcon
                       className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#1a1a1a]"
                       aria-hidden
