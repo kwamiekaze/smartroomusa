@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { HeroMedia } from "@/components/HeroMedia";
 import { Reveal } from "@/components/Reveal";
 import { Navbar } from "@/components/Navbar";
+import { SplashScreen } from "@/components/SplashScreen";
 
 const PHONE_DISPLAY = "(404) 000-0000"; // TODO: replace with real number
 const PHONE_HREF = "tel:4040000000";    // TODO: replace with real number
@@ -72,6 +73,7 @@ const Index = () => {
 
   return (
     <div id="top" className="min-h-screen bg-background text-foreground">
+      <SplashScreen />
       <Navbar />
 
       {/* HERO */}
@@ -88,18 +90,18 @@ const Index = () => {
           <a
             href="#booking"
             aria-label="Schedule a tour"
-            className="group relative flex flex-col items-center w-24 sm:w-28 md:w-32 rounded-xl overflow-hidden bg-card/90 backdrop-blur-md border border-primary/50 shadow-gold hover:-translate-y-1 hover:shadow-glow transition-luxe"
+            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 rounded-xl overflow-hidden bg-card/90 backdrop-blur-md border border-primary/50 shadow-gold hover:-translate-y-1 hover:shadow-glow transition-luxe"
           >
             {/* Calendar header */}
-            <div className="w-full bg-gradient-gold py-1.5 flex items-center justify-center gap-1.5">
-              <span className="h-1.5 w-1 rounded-full bg-primary-foreground/80" />
-              <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-primary-foreground uppercase">Tour</span>
-              <span className="h-1.5 w-1 rounded-full bg-primary-foreground/80" />
+            <div className="w-full bg-gradient-gold py-1 flex items-center justify-center gap-1">
+              <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
+              <span className="text-[9px] sm:text-[10px] font-semibold tracking-widest text-primary-foreground uppercase">Tour</span>
+              <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
             </div>
             {/* Calendar body */}
-            <div className="px-3 py-2 sm:py-3 flex flex-col items-center">
-              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1" />
-              <span className="font-serif text-cream text-xs sm:text-sm leading-tight text-center">Schedule<br/>a Tour</span>
+            <div className="px-2 py-1.5 sm:py-2 flex flex-col items-center">
+              <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-primary mb-0.5" />
+              <span className="font-serif text-cream text-[11px] sm:text-xs leading-tight text-center">Schedule<br/>a Tour</span>
             </div>
           </a>
         </div>
@@ -109,7 +111,7 @@ const Index = () => {
       <section id="requirements" className="py-24 bg-gradient-section">
         <div className="container">
           <Reveal>
-            <SectionTitle eyebrow="Move-In" title="What You Need To Move In" sub="A simple, transparent qualification process — no surprises." />
+            <SectionTitle eyebrow="Move-In" title="What You Need To Move In" sub="A simple, transparent qualification process with no surprises." />
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {moveInRequirements.map((r, i) => (
@@ -135,15 +137,15 @@ const Index = () => {
           </Reveal>
           <Reveal delay={100}>
             <div className="max-w-3xl mx-auto p-1 rounded-2xl bg-gradient-gold shadow-elegant">
-              <div className="rounded-2xl bg-card p-10 md:p-14 text-center">
+              <div className="rounded-2xl bg-card p-6 sm:p-10 md:p-14 text-center">
                 <p className="text-sm uppercase tracking-[0.25em] text-primary mb-4">Example Move-In</p>
-                <p className="text-cream/85 text-lg leading-relaxed">
+                <p className="text-cream/85 text-base sm:text-lg leading-relaxed">
                   If monthly rent is <span className="text-cream font-semibold">$800</span>, you only pay
                   <span className="text-cream font-semibold"> $200 weekly</span> + <span className="text-cream font-semibold">$200 security deposit</span> + <span className="text-cream font-semibold">$89 administrative fee</span>.
                 </p>
                 <div className="my-8 gold-divider" />
                 <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Total Move-In Cost</p>
-                <p className="font-serif text-7xl md:text-8xl text-gradient-gold mt-2">$489.00</p>
+                <p className="font-serif text-5xl sm:text-7xl md:text-8xl text-gradient-gold mt-2 tracking-tight whitespace-nowrap">$489.00</p>
                 <Button asChild variant="gold" size="lg" className="mt-8">
                   <a href="#booking">Reserve Your Room</a>
                 </Button>
@@ -157,7 +159,7 @@ const Index = () => {
       <section id="included" className="py-24 bg-gradient-section">
         <div className="container">
           <Reveal>
-            <SectionTitle eyebrow="Amenities" title="What Renters Can Use In The House" sub="Everything you need for comfortable shared living, included." />
+            <SectionTitle eyebrow="Amenities" title="What Renters Can Use In The House" sub="Everything you need for comfortable shared living, included with every stay." />
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {included.map((it, i) => (
@@ -226,7 +228,7 @@ const Index = () => {
       <section className="py-24 bg-gradient-section">
         <div className="container">
           <Reveal>
-            <SectionTitle eyebrow="Policies" title="Clear Rental Terms" sub="Refunds, transfers & deposits — straightforward and fair." />
+            <SectionTitle eyebrow="Policies" title="Clear Rental Terms" sub="Refunds, transfers, and deposits made straightforward and fair." />
           </Reveal>
           <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {terms.map((t, i) => (
@@ -268,7 +270,7 @@ const Index = () => {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 blur-3xl rounded-full" />
         <div className="container relative max-w-2xl">
           <Reveal>
-            <SectionTitle eyebrow="Reserve" title="Book Your Smart Room" sub="Tell us a bit about you — we'll confirm availability and walk you through next steps." />
+            <SectionTitle eyebrow="Reserve" title="Book Your Smart Room" sub="Tell us a bit about you and we'll confirm availability and walk you through next steps." />
           </Reveal>
           <Reveal delay={100}>
             <form onSubmit={handleSubmit} className="p-8 md:p-10 rounded-2xl bg-card border border-primary/30 shadow-elegant space-y-5">
