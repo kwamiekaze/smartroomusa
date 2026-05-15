@@ -33,9 +33,8 @@ export const HeroMedia = ({ videoSrc, poster = heroImage }: HeroMediaProps) => {
           height={1024}
         />
       )}
-      {/* Cinematic gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-hero" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background)/0.7)_100%)]" />
+      {/* Subtle bottom fade only — keep hero video unobstructed */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-background/80 pointer-events-none" />
     </div>
   );
 };
