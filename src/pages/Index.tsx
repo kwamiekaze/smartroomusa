@@ -10,6 +10,8 @@ import { HeroMedia } from "@/components/HeroMedia";
 import { Reveal } from "@/components/Reveal";
 import { Navbar } from "@/components/Navbar";
 import { SplashScreen } from "@/components/SplashScreen";
+import { TourModal } from "@/components/TourModal";
+import { useState } from "react";
 
 const PHONE_DISPLAY = "(404) 000-0000"; // TODO: replace with real number
 const PHONE_HREF = "tel:4040000000";    // TODO: replace with real number
