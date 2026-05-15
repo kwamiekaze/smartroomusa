@@ -29,6 +29,7 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [income, setIncome] = useState("");
 
   // Preload video once on mount so first click plays instantly
   useEffect(() => {
