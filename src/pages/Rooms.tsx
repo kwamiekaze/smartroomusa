@@ -115,27 +115,10 @@ const Rooms = () => {
             {rooms.map((room, i) => (
               <Reveal key={room.id} delay={(i % 6) * 60}>
                 <article className="group h-full flex flex-col rounded-xl overflow-hidden bg-card border border-border/60 shadow-card hover:border-primary/50 hover:-translate-y-1 transition-luxe">
-                  {/* Image / placeholder */}
+                  {/* Image gallery / placeholder */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-gradient-wood">
-                    {room.imageUrl ? (
-                      <img
-                        src={room.imageUrl}
-                        alt={room.name}
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-luxe"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      <div className="absolute inset-0 grid place-items-center marble-texture">
-                        <div className="text-center px-6">
-                          <Home className="h-8 w-8 text-primary mx-auto mb-3" strokeWidth={1.5} />
-                          <p className="text-xs uppercase tracking-[0.3em] text-cream/80">Room photo coming soon</p>
-                        </div>
-                      </div>
-                    )}
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] bg-background/70 backdrop-blur-md border border-primary/40 text-primary">
+                    <RoomGallery room={room} />
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] bg-background/70 backdrop-blur-md border border-primary/40 text-primary z-10">
                       {room.availability}
                     </div>
                   </div>
