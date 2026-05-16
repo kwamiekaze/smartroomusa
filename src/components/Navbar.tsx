@@ -3,12 +3,13 @@ import { Menu, X } from "lucide-react";
 import { WeatherPill } from "@/components/WeatherPill";
 
 const links = [
-  { href: "#requirements", label: "Move-In" },
-  { href: "#cost", label: "Pricing" },
-  { href: "#included", label: "Included" },
-  { href: "#experience", label: "Experience" },
-  { href: "#faq", label: "FAQ" },
-  { href: "#booking", label: "Book a Room" },
+  { href: "/#requirements", label: "Move-In" },
+  { href: "/#cost", label: "Pricing" },
+  { href: "/#included", label: "Included" },
+  { href: "/rooms", label: "Rooms" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#booking", label: "Book a Room" },
 ];
 
 export const Navbar = () => {
