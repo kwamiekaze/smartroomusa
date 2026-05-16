@@ -1,8 +1,91 @@
-import { Home, Phone, MapPin, ExternalLink } from "lucide-react";
+import { useRef, useState } from "react";
+import { Home, Phone, MapPin, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Reveal } from "@/components/Reveal";
-import { rooms } from "@/data/rooms";
+import { rooms, type Room } from "@/data/rooms";
+
+function RoomGallery({ room }: { room: Room }) {
+  const imgs = (room.images && room.images.length > 0)
+    ? room.images
+    : (room.imageUrl ? [room.imageUrl] : []);
+  const [i, setI] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  if (imgs.length === 0) {
+    return (
+      <div className="absolute inset-0 grid place-items-center marble-texture">
+        <div className="text-center px-6">
+          <Home className="h-8 w-8 text-primary mx-auto mb-3" strokeWidth={1.5} />
+          <p className="text-xs uppercase tracking-[0.3em] text-cream/80">Room photo coming soon</p>
+        </div>
+      </div>
+    );
+  }
+
+  const go = (n: number) => setI((i + n + imgs.length) % imgs.length);
+
+  return (
+    <div
+      className="absolute inset-0"
+      onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => {
+        if (touchStartX.current == null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+        touchStartX.current = null;
+      }}
+    >
+      {imgs.map((src, idx) => (
+        <img
+          key={src}
+          src={src}
+          alt={`${room.name} — photo ${idx + 1} of ${imgs.length}`}
+          loading="lazy"
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${idx === i ? "opacity-100" : "opacity-0"}`}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+        />
+      ))}
+
+      {imgs.length > 1 && (
+        <>
+          <button
+            type="button"
+            aria-label="Previous photo"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); go(-1); }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 h-9 w-9 grid place-items-center rounded-full bg-background/60 backdrop-blur-md border border-primary/30 text-cream hover:bg-background/80 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next photo"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); go(1); }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 grid place-items-center rounded-full bg-background/60 backdrop-blur-md border border-primary/30 text-cream hover:bg-background/80 hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
+            {imgs.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                aria-label={`Go to photo ${idx + 1}`}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setI(idx); }}
+                className={`h-1.5 rounded-full transition-all ${idx === i ? "w-5 bg-primary" : "w-1.5 bg-cream/50 hover:bg-cream/80"}`}
+              />
+            ))}
+          </div>
+
+          <div className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-[0.2em] bg-background/70 backdrop-blur-md border border-primary/30 text-cream/90">
+            {i + 1} / {imgs.length}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 const PHONE_DISPLAY = "(404) 000-0000";
 const PHONE_HREF = "tel:4040000000";
