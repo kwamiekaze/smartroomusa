@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Reveal } from "@/components/Reveal";
 import { TourModal } from "@/components/TourModal";
-import { triggerReturnToLobby } from "@/components/SplashScreen";
+
 import { rooms, type Room } from "@/data/rooms";
 
 function RoomGallery({ room }: { room: Room }) {
@@ -100,15 +100,6 @@ const Rooms = () => {
       <Navbar />
       <TourModal open={tourOpen} onClose={() => setTourOpen(false)} />
 
-      {/* Return to Lobby — top-left, below the WeatherPill/menu */}
-      <button
-        type="button"
-        onClick={triggerReturnToLobby}
-        className="fixed top-20 left-4 z-40 inline-flex items-center gap-2 rounded-full bg-background/70 backdrop-blur-md border border-primary/40 px-4 py-2 text-sm text-cream hover:text-primary hover:border-primary transition-colors shadow-card"
-        aria-label="Return to lobby"
-      >
-        <Home className="h-4 w-4" /> Return to Lobby
-      </button>
 
       <section id="rooms" className="pt-28 pb-24 marble-texture">
         <div className="container">
@@ -196,7 +187,8 @@ const Rooms = () => {
           </div>
 
           <p className="mt-14 text-center text-sm text-muted-foreground">
-            Don't see what you're looking for? Call us at{" "}
+            Don't see what you're looking for? Call us at
+            <br />
             <a href={PHONE_HREF} className="text-primary hover:underline">{PHONE_DISPLAY}</a>.
           </p>
         </div>
