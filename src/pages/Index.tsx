@@ -72,9 +72,35 @@ const Index = () => {
   const [tourOpen, setTourOpen] = useState(false);
   const [roomsOpen, setRoomsOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success("Booking request received", { description: "We'll reach out shortly to confirm your move-in." });
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      name: String(fd.get("name") || "").trim(),
+      phone: String(fd.get("phone") || "").trim(),
+      email: String(fd.get("email") || "").trim(),
+      movein: String(fd.get("movein") || "").trim(),
+      income: String(fd.get("income") || "").trim(),
+      message: String(fd.get("message") || "").trim(),
+      source: "booking_form" as const,
+    };
+    if (!payload.name || !payload.phone || !payload.email) {
+      toast.error("Please complete the required fields.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { submitBooking } = await import("@/lib/bookings");
+      await submitBooking(payload);
+      (e.target as HTMLFormElement).reset();
+      toast.success("Booking request received", { description: "We'll reach out shortly to confirm your move-in." });
+    } catch (err: any) {
+      toast.error(err?.message || "Could not submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -305,25 +331,25 @@ const Index = () => {
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-cream">Full Name</Label>
-                  <Input id="name" required placeholder="Jane Doe" className="bg-input border-border/60" />
+                  <Input id="name" name="name" required placeholder="Jane Doe" className="bg-input border-border/60" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="text-cream">Phone Number</Label>
-                  <Input id="phone" type="tel" required placeholder="(555) 555-5555" className="bg-input border-border/60" />
+                  <Input id="phone" name="phone" type="tel" required placeholder="(555) 555-5555" className="bg-input border-border/60" />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-cream">Email</Label>
-                <Input id="email" type="email" required placeholder="you@email.com" className="bg-input border-border/60" />
+                <Input id="email" name="email" type="email" required placeholder="you@email.com" className="bg-input border-border/60" />
               </div>
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
                   <Label htmlFor="movein" className="text-cream">Desired Move-In Date</Label>
-                  <Input id="movein" type="date" required className="bg-input border-border/60" />
+                  <Input id="movein" name="movein" type="date" required className="bg-input border-border/60" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="income" className="text-cream">Proof of Income</Label>
-                  <Select>
+                  <Select name="income">
                     <SelectTrigger id="income" className="bg-input border-border/60">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
@@ -338,10 +364,10 @@ const Index = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="message" className="text-cream">Message</Label>
-                <Textarea id="message" rows={4} placeholder="Anything we should know?" className="bg-input border-border/60" />
+                <Textarea id="message" name="message" rows={4} placeholder="Anything we should know?" className="bg-input border-border/60" />
               </div>
-              <Button type="submit" variant="gold" size="lg" className="w-full">
-                Submit Booking Request
+              <Button type="submit" variant="gold" size="lg" className="w-full" disabled={submitting}>
+                {submitting ? "Submitting…" : "Submit Booking Request"}
               </Button>
               <p className="text-xs text-center text-muted-foreground">
                 Or call us directly at <a href={PHONE_HREF} className="text-primary hover:underline">{PHONE_DISPLAY}</a>

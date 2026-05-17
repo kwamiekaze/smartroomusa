@@ -98,30 +98,31 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
     setShowForm(true);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     const fd = new FormData(e.currentTarget);
-    const entry = {
+    const payload = {
       name: String(fd.get("name") || "").trim(),
       phone: String(fd.get("phone") || "").trim(),
       email: String(fd.get("email") || "").trim(),
       movein: String(fd.get("movein") || "").trim(),
       income: String(fd.get("income") || "").trim(),
       message: String(fd.get("message") || "").trim(),
-      submittedAt: new Date().toISOString(),
+      source: "tour" as const,
     };
     try {
-      const key = "tourRequests";
-      const existing = JSON.parse(localStorage.getItem(key) || "[]");
-      existing.push(entry);
-      localStorage.setItem(key, JSON.stringify(existing));
-    } catch {}
-    toast.success("Booking request received", {
-      description: "We'll reach out shortly to confirm your move-in.",
-    });
-    setSubmitting(false);
-    onClose();
+      const { submitBooking } = await import("@/lib/bookings");
+      await submitBooking(payload);
+      toast.success("Tour request received", {
+        description: "We'll reach out shortly to confirm your tour.",
+      });
+      onClose();
+    } catch (err: any) {
+      toast.error(err?.message || "Submission failed. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (!open) return null;
