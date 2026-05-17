@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Reveal } from "@/components/Reveal";
 import { TourModal } from "@/components/TourModal";
-import { triggerReturnToLobby } from "@/components/SplashScreen";
+
 import { rooms, type Room } from "@/data/rooms";
 
 function RoomGallery({ room }: { room: Room }) {
