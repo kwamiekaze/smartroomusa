@@ -56,7 +56,7 @@ const DEFAULT_AMENITIES = [
 ];
 
 const DEFAULT_DESCRIPTION =
-  "Private room in a well-maintained SmartRoomz home. Furnished common areas, simple weekly rent, and a fast move-in process.";
+  "Comfortable private bedroom inside a thoughtfully kept smartroomusa.com residence. Enjoy fully furnished shared living spaces, straightforward weekly rent, and a quick, hassle-free move-in.";
 
 export const rooms: Room[] = [
   {
