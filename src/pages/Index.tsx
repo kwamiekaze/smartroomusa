@@ -1,4 +1,4 @@
-import { Phone, Calendar, Wifi, Zap, Home, Sofa, ChefHat, Bath, IdCard, FileCheck, DollarSign, Shield, FileText, Check } from "lucide-react";
+import { Phone, Calendar, Wifi, Zap, Home, Sofa, ChefHat, Bath, IdCard, FileCheck, DollarSign, Shield, FileText, Check, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,10 +11,11 @@ import { Reveal } from "@/components/Reveal";
 import { Navbar } from "@/components/Navbar";
 import { SplashScreen } from "@/components/SplashScreen";
 import { TourModal } from "@/components/TourModal";
+import { RoomsIntroModal } from "@/components/RoomsIntroModal";
 import { useState } from "react";
 
-const PHONE_DISPLAY = "(404) 000-0000"; // TODO: replace with real number
-const PHONE_HREF = "tel:4040000000";    // TODO: replace with real number
+const PHONE_DISPLAY = "(404) 997-3763";
+const PHONE_HREF = "tel:4049973763";
 
 const moveInRequirements = [
   { icon: IdCard, title: "Valid Identification", desc: "Government-issued photo ID required at move-in." },
