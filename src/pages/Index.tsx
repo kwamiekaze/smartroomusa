@@ -146,7 +146,7 @@ const Index = () => {
             type="button"
             onClick={() => setRoomsOpen(true)}
             aria-label="Browse rooms"
-            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 hover:-translate-y-1 transition-luxe"
+            className="group relative flex flex-col items-center w-16 sm:w-20 md:w-24 hover:-translate-y-1 transition-luxe"
           >
             <span aria-hidden className="h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full border-[2.5px] border-primary bg-transparent shadow-gold -mb-1.5 relative z-10 drop-shadow-[0_0_6px_hsl(var(--primary)/0.7)]" />
             <span aria-hidden className="h-2 w-[2px] bg-primary/70 -mb-1 z-10" />
