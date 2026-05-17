@@ -47,9 +47,25 @@ export const Navbar = () => {
       {open && (
         <div className="border-t border-border/40 bg-background/95 backdrop-blur-md animate-fade-in">
           <div className="container py-4 flex flex-col gap-3">
-            {links.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-cream py-2 hover:text-primary transition-smooth">{l.label}</a>
-            ))}
+            {links.map((l) => {
+              const isRooms = l.href === "/rooms";
+              return (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={(e) => {
+                    if (isRooms && pathname === "/") {
+                      e.preventDefault();
+                      window.dispatchEvent(new CustomEvent("rooms-intro:open"));
+                    }
+                    setOpen(false);
+                  }}
+                  className="text-cream py-2 hover:text-primary transition-smooth"
+                >
+                  {l.label}
+                </a>
+              );
+            })}
             <a href="tel:4049973763" onClick={() => setOpen(false)} className="text-primary py-2">Call (404) 997-3763</a>
           </div>
         </div>
