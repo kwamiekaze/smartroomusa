@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
-import { Home, Phone, MapPin, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, Phone, MapPin, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
 import { Reveal } from "@/components/Reveal";
+import { TourModal } from "@/components/TourModal";
+import { triggerReturnToLobby } from "@/components/SplashScreen";
 import { rooms, type Room } from "@/data/rooms";
 
 function RoomGallery({ room }: { room: Room }) {
@@ -87,13 +89,26 @@ function RoomGallery({ room }: { room: Room }) {
   );
 }
 
-const PHONE_DISPLAY = "(404) 000-0000";
-const PHONE_HREF = "tel:4040000000";
+const PHONE_DISPLAY = "(404) 997-3763";
+const PHONE_HREF = "tel:4049973763";
 
 const Rooms = () => {
+  const [tourOpen, setTourOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
+      <TourModal open={tourOpen} onClose={() => setTourOpen(false)} />
+
+      {/* Return to Lobby — top-left, below the WeatherPill/menu */}
+      <button
+        type="button"
+        onClick={triggerReturnToLobby}
+        className="fixed top-20 left-4 z-40 inline-flex items-center gap-2 rounded-full bg-background/70 backdrop-blur-md border border-primary/40 px-4 py-2 text-sm text-cream hover:text-primary hover:border-primary transition-colors shadow-card"
+        aria-label="Return to lobby"
+      >
+        <Home className="h-4 w-4" /> Return to Lobby
+      </button>
 
       <section id="rooms" className="pt-28 pb-24 marble-texture">
         <div className="container">
@@ -115,7 +130,6 @@ const Rooms = () => {
             {rooms.map((room, i) => (
               <Reveal key={room.id} delay={(i % 6) * 60}>
                 <article className="group h-full flex flex-col rounded-xl overflow-hidden bg-card border border-border/60 shadow-card hover:border-primary/50 hover:-translate-y-1 transition-luxe">
-                  {/* Image gallery / placeholder */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-gradient-wood">
                     <RoomGallery room={room} />
                     <div className="absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] bg-background/70 backdrop-blur-md border border-primary/40 text-primary z-10">
@@ -123,7 +137,6 @@ const Rooms = () => {
                     </div>
                   </div>
 
-                  {/* Body */}
                   <div className="flex flex-col flex-1 p-6">
                     <h3 className="font-serif text-2xl text-cream leading-tight">{room.name}</h3>
                     {room.location && (
@@ -162,10 +175,13 @@ const Rooms = () => {
                     </p>
 
                     <div className="mt-6 flex flex-col sm:flex-row gap-3 pt-2">
-                      <Button asChild variant="gold" size="sm" className="flex-1">
-                        <a href={room.sourceUrl || "#"} target="_blank" rel="noopener noreferrer">
-                          View Details
-                        </a>
+                      <Button
+                        variant="gold"
+                        size="sm"
+                        className="flex-1"
+                        onClick={() => setTourOpen(true)}
+                      >
+                        <CalendarIcon className="h-4 w-4 mr-1.5" /> Schedule Tour
                       </Button>
                       <Button asChild variant="outline" size="sm" className="flex-1 border-primary/40 text-cream hover:bg-primary/10">
                         <a href={PHONE_HREF}>
@@ -173,17 +189,6 @@ const Rooms = () => {
                         </a>
                       </Button>
                     </div>
-
-                    {room.sourceUrl && (
-                      <a
-                        href={room.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-flex items-center gap-1 text-[11px] text-primary/80 hover:text-primary"
-                      >
-                        Source listing <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
                   </div>
                 </article>
               </Reveal>

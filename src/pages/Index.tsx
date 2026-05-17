@@ -1,4 +1,4 @@
-import { Phone, Calendar, Wifi, Zap, Home, Sofa, ChefHat, Bath, IdCard, FileCheck, DollarSign, Shield, FileText, Check } from "lucide-react";
+import { Phone, Calendar, Wifi, Zap, Home, Sofa, ChefHat, Bath, IdCard, FileCheck, DollarSign, Shield, FileText, Check, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,10 +11,11 @@ import { Reveal } from "@/components/Reveal";
 import { Navbar } from "@/components/Navbar";
 import { SplashScreen } from "@/components/SplashScreen";
 import { TourModal } from "@/components/TourModal";
+import { RoomsIntroModal } from "@/components/RoomsIntroModal";
 import { useState } from "react";
 
-const PHONE_DISPLAY = "(404) 000-0000"; // TODO: replace with real number
-const PHONE_HREF = "tel:4040000000";    // TODO: replace with real number
+const PHONE_DISPLAY = "(404) 997-3763";
+const PHONE_HREF = "tel:4049973763";
 
 const moveInRequirements = [
   { icon: IdCard, title: "Valid Identification", desc: "Government-issued photo ID required at move-in." },
@@ -69,6 +70,7 @@ const SectionTitle = ({ eyebrow, title, sub }: { eyebrow?: string; title: string
 
 const Index = () => {
   const [tourOpen, setTourOpen] = useState(false);
+  const [roomsOpen, setRoomsOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,13 +81,13 @@ const Index = () => {
     <div id="top" className="min-h-screen bg-background text-foreground">
       <SplashScreen />
       <TourModal open={tourOpen} onClose={() => setTourOpen(false)} />
+      <RoomsIntroModal open={roomsOpen} onClose={() => setRoomsOpen(false)} />
       <Navbar />
 
       {/* HERO */}
       <section className="relative min-h-[100svh] flex flex-col overflow-hidden">
         <HeroMedia videoSrc="/hero.mp4" />
 
-        {/* SR-only h1 for SEO/accessibility — visual hero kept clean */}
         <h1 className="sr-only">Premium smart room living in Atlanta</h1>
 
         <div className="flex-1" />
@@ -98,16 +100,36 @@ const Index = () => {
             aria-label="Schedule a tour"
             className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 rounded-xl overflow-hidden bg-card/90 backdrop-blur-md border border-primary/50 shadow-gold hover:-translate-y-1 hover:shadow-glow transition-luxe"
           >
-            {/* Calendar header */}
             <div className="w-full bg-gradient-gold py-1 flex items-center justify-center gap-1">
               <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
               <span className="text-[9px] sm:text-[10px] font-semibold tracking-widest text-primary-foreground uppercase">Tour</span>
               <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
             </div>
-            {/* Calendar body */}
             <div className="px-2 py-1.5 sm:py-2 flex flex-col items-center">
               <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-primary mb-0.5" />
               <span className="font-serif text-cream text-[11px] sm:text-xs leading-tight text-center">Schedule<br/>a Tour</span>
+            </div>
+          </button>
+        </div>
+
+        {/* Rooms — SR keychain CTA, bottom-right */}
+        <div className="absolute z-10 right-4 bottom-6 sm:right-6 sm:bottom-8 md:right-10 md:bottom-10">
+          <button
+            type="button"
+            onClick={() => setRoomsOpen(true)}
+            aria-label="Browse rooms"
+            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 hover:-translate-y-1 transition-luxe"
+          >
+            <span aria-hidden className="h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full border-[2.5px] border-primary bg-transparent shadow-gold -mb-1.5 relative z-10" />
+            <span aria-hidden className="h-2 w-[2px] bg-primary/70 -mb-1 z-10" />
+            <div className="relative w-full rounded-2xl overflow-hidden border border-primary/60 shadow-gold bg-gradient-to-b from-[#1a0f08] via-[#3a2418] to-[#1a0f08] group-hover:shadow-glow transition-luxe">
+              <div className="w-full bg-gradient-gold py-1 flex items-center justify-center">
+                <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-primary-foreground">SR</span>
+              </div>
+              <div className="px-2 py-1.5 sm:py-2 flex flex-col items-center">
+                <Key className="h-4 w-4 sm:h-5 sm:w-5 text-primary mb-0.5" strokeWidth={2} />
+                <span className="font-serif text-cream text-[11px] sm:text-xs leading-tight text-center">Rooms</span>
+              </div>
             </div>
           </button>
         </div>
