@@ -69,10 +69,10 @@ export const rooms: Room[] = [
     amenities: DEFAULT_AMENITIES,
     description: DEFAULT_DESCRIPTION,
     imageUrl:
-      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-19.57.08_ba2b7523.jpg",
-    images: [
-      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-19.57.08_ba2b7523.jpg",
       "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-20.02.40_f20df55b.jpg",
+    images: [
+      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-20.02.40_f20df55b.jpg",
+      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-19.57.08_ba2b7523.jpg",
       "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-20.08.57_2f4067ac.jpg",
     ],
     sourceUrl:
