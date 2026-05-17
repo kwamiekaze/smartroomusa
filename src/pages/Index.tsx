@@ -12,7 +12,7 @@ import { Navbar } from "@/components/Navbar";
 import { SplashScreen } from "@/components/SplashScreen";
 import { TourModal } from "@/components/TourModal";
 import { RoomsIntroModal } from "@/components/RoomsIntroModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const PHONE_DISPLAY = "(404) 997-3763";
 const PHONE_HREF = "tel:4049973763";
@@ -71,6 +71,12 @@ const SectionTitle = ({ eyebrow, title, sub }: { eyebrow?: string; title: string
 const Index = () => {
   const [tourOpen, setTourOpen] = useState(false);
   const [roomsOpen, setRoomsOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setRoomsOpen(true);
+    window.addEventListener("rooms-intro:open", handler);
+    return () => window.removeEventListener("rooms-intro:open", handler);
+  }, []);
 
   const [submitting, setSubmitting] = useState(false);
 
