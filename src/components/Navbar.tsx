@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { WeatherPill } from "@/components/WeatherPill";
+import { triggerReturnToLobby } from "@/components/SplashScreen";
 
 const links = [
   { href: "/#requirements", label: "Move-In" },
@@ -15,10 +17,24 @@ const links = [
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const onRooms = pathname.startsWith("/rooms");
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="container flex h-16 items-center justify-between">
-        <WeatherPill />
+        {onRooms ? (
+          <button
+            type="button"
+            onClick={triggerReturnToLobby}
+            className="inline-flex items-center gap-2 rounded-full bg-background/70 backdrop-blur-md border border-primary/40 px-4 py-2 text-sm text-cream hover:text-primary hover:border-primary transition-colors shadow-card"
+            aria-label="Return to lobby"
+          >
+            <Home className="h-4 w-4" /> Return to Lobby
+          </button>
+        ) : (
+          <WeatherPill />
+        )}
         <button
           className="text-cream p-2 rounded-full bg-background/60 backdrop-blur-md border border-border/40"
           onClick={() => setOpen(!open)}
