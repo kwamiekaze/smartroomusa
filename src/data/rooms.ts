@@ -56,9 +56,28 @@ const DEFAULT_AMENITIES = [
 ];
 
 const DEFAULT_DESCRIPTION =
-  "Private room in a well-maintained SmartRoomz home. Furnished common areas, simple weekly rent, and a fast move-in process.";
+  "Comfortable private bedroom inside a thoughtfully kept smartroomusa.com residence. Enjoy fully furnished shared living spaces, straightforward weekly rent, and a quick, hassle-free move-in.";
 
 export const rooms: Room[] = [
+  {
+    id: "charleston-lakewood",
+    name: "Charleston Ave SE — Lakewood",
+    location: "9 Charleston Ave SE / Lakewood, Atlanta, GA 30315",
+    weeklyRent: "from $175/week",
+    moveInCost: "$464 estimated move-in",
+    availability: "Call for availability",
+    amenities: DEFAULT_AMENITIES,
+    description: DEFAULT_DESCRIPTION,
+    imageUrl:
+      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-19.57.08_ba2b7523.jpg",
+    images: [
+      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-19.57.08_ba2b7523.jpg",
+      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-20.02.40_f20df55b.jpg",
+      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-20.08.57_2f4067ac.jpg",
+    ],
+    sourceUrl:
+      "https://smartroomzusa.com/room/9-charleston-ave-se-lakewood-atlanta-ga-30315/",
+  },
   {
     id: "east-point",
     name: "East Point",
@@ -277,25 +296,6 @@ export const rooms: Room[] = [
     ],
     sourceUrl:
       "https://smartroomzusa.com/room/1204-eastridge-road-oakland-city-atlanta-ga-3314/",
-  },
-  {
-    id: "charleston-lakewood",
-    name: "Charleston Ave SE — Lakewood",
-    location: "9 Charleston Ave SE / Lakewood, Atlanta, GA 30315",
-    weeklyRent: "from $175/week",
-    moveInCost: "$464 estimated move-in",
-    availability: "Call for availability",
-    amenities: DEFAULT_AMENITIES,
-    description: DEFAULT_DESCRIPTION,
-    imageUrl:
-      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-19.57.08_ba2b7523.jpg",
-    images: [
-      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-19.57.08_ba2b7523.jpg",
-      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-20.02.40_f20df55b.jpg",
-      "https://smartroomzusa.com/wp-content/uploads/2023/12/WhatsApp-Image-2023-12-11-at-20.08.57_2f4067ac.jpg",
-    ],
-    sourceUrl:
-      "https://smartroomzusa.com/room/9-charleston-ave-se-lakewood-atlanta-ga-30315/",
   },
   {
     id: "jones-west-midtown",
