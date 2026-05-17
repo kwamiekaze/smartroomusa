@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -47,7 +47,7 @@ const Auth = () => {
           options: { emailRedirectTo: `${window.location.origin}/pending` },
         });
         if (error) throw error;
-        toast.success("Account created", { description: "Your account is pending approval." });
+        toast.success("Account created", { description: "You're set as a Pending Applicant until an admin assigns your role." });
         if (data.session?.user) await routeForUser(data.session.user.id);
         else navigate("/pending", { replace: true });
       } else {
@@ -73,10 +73,9 @@ const Auth = () => {
       </button>
 
       <div className="w-full max-w-md p-8 rounded-2xl bg-card border border-primary/30 shadow-elegant">
-        <h1 className="font-serif text-3xl text-cream text-center mb-2">Sign in</h1>
-        <p className="text-center text-muted-foreground text-sm mb-6">
-          New accounts begin as <span className="text-primary">Pending Applicant</span> until an admin assigns a role.
-        </p>
+        <h1 className="font-serif text-3xl text-cream text-center mb-6">
+          {mode === "signup" ? "Create account" : "Sign in"}
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-cream">Email</Label>
