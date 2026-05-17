@@ -187,7 +187,8 @@ const Rooms = () => {
           </div>
 
           <p className="mt-14 text-center text-sm text-muted-foreground">
-            Don't see what you're looking for? Call us at{" "}
+            Don't see what you're looking for? Call us at
+            <br />
             <a href={PHONE_HREF} className="text-primary hover:underline">{PHONE_DISPLAY}</a>.
           </p>
         </div>
