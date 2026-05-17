@@ -135,7 +135,7 @@ const Index = () => {
             </div>
             <div className="relative flex-1 w-full px-2 py-2 flex flex-col items-center justify-center">
               <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1 drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" strokeWidth={1.5} />
-              <span className="font-serif italic text-cream text-[12px] sm:text-sm leading-tight text-center tracking-wide">Schedule<br/>a&nbsp;Tour</span>
+              <span className="font-serif italic text-cream text-[12px] sm:text-sm leading-tight text-center tracking-wide">Schedule</span>
             </div>
           </button>
         </div>
