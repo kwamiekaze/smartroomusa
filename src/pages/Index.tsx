@@ -124,7 +124,7 @@ const Index = () => {
             type="button"
             onClick={() => setTourOpen(true)}
             aria-label="Schedule a tour"
-            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 h-24 sm:h-28 md:h-32 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] hover:-translate-y-1 hover:shadow-glow transition-luxe"
+            className="group relative flex flex-col items-center w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] hover:-translate-y-1 hover:shadow-glow transition-luxe"
           >
             <span aria-hidden className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.35),transparent_60%)] opacity-80" />
             <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
