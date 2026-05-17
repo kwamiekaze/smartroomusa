@@ -114,8 +114,9 @@ export const TourModal = ({ open, onClose }: TourModalProps) => {
     try {
       const { submitBooking } = await import("@/lib/bookings");
       await submitBooking(payload);
-      toast.success("Tour request received", {
-        description: "We'll reach out shortly to confirm your tour.",
+      toast.success("Thank you — your tour request is in", {
+        description:
+          "We've received your request and a Smart Room team member will be in touch shortly to confirm your visit.",
       });
       onClose();
     } catch (err: any) {
