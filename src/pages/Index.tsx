@@ -12,7 +12,7 @@ import { Navbar } from "@/components/Navbar";
 import { SplashScreen } from "@/components/SplashScreen";
 import { TourModal } from "@/components/TourModal";
 import { RoomsIntroModal } from "@/components/RoomsIntroModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const PHONE_DISPLAY = "(404) 997-3763";
 const PHONE_HREF = "tel:4049973763";
