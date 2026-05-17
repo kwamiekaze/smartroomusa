@@ -128,10 +128,8 @@ const Index = () => {
           >
             <span aria-hidden className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.35),transparent_60%)] opacity-80" />
             <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative w-full bg-gradient-gold py-1.5 flex items-center justify-center gap-1.5">
-              <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
-              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.3em] text-primary-foreground uppercase">Tour</span>
-              <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
+            <div className="relative w-full bg-gradient-gold py-1.5 flex items-center justify-center">
+              <span className="text-[8px] sm:text-[9px] font-bold tracking-[0.25em] text-primary-foreground uppercase">Tour</span>
             </div>
             <div className="relative flex-1 w-full px-2 py-2 flex flex-col items-center justify-center">
               <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1 drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" strokeWidth={1.5} />
@@ -153,10 +151,8 @@ const Index = () => {
             <div className="relative w-full h-20 sm:h-24 md:h-28 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] group-hover:shadow-glow transition-luxe">
               <span aria-hidden className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.35),transparent_60%)] opacity-80" />
               <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tl from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative w-full bg-gradient-gold py-1.5 flex items-center justify-center gap-1.5">
-                <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
-                <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.3em] text-primary-foreground uppercase">Browse</span>
-                <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
+              <div className="relative w-full bg-gradient-gold py-1.5 flex items-center justify-center">
+                <span className="text-[8px] sm:text-[9px] font-bold tracking-[0.25em] text-primary-foreground uppercase">Browse</span>
               </div>
               <div className="relative flex-1 px-2 py-2 flex flex-col items-center justify-center">
                 <Key className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1 drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" strokeWidth={1.5} />
