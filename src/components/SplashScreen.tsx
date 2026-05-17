@@ -73,13 +73,6 @@ export const SplashScreen = () => {
         onEnded={dismiss}
         className="h-full w-full object-cover"
       />
-      {isReturn && (
-        <div className="pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2 text-center">
-          <span className="px-4 py-2 rounded-full bg-black/55 backdrop-blur-md text-white/95 text-xs sm:text-sm uppercase tracking-[0.3em] animate-pulse">
-            Tap to continue
-          </span>
-        </div>
-      )}
     </div>
   );
 };
