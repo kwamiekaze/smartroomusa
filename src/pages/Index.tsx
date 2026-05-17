@@ -124,7 +124,7 @@ const Index = () => {
             type="button"
             onClick={() => setTourOpen(true)}
             aria-label="Schedule a tour"
-            className="group relative flex flex-col items-center w-24 sm:w-28 md:w-32 h-28 sm:h-32 md:h-36 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] hover:-translate-y-1 hover:shadow-glow transition-luxe"
+            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 h-24 sm:h-28 md:h-32 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] hover:-translate-y-1 hover:shadow-glow transition-luxe"
           >
             <span aria-hidden className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.35),transparent_60%)] opacity-80" />
             <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -146,11 +146,11 @@ const Index = () => {
             type="button"
             onClick={() => setRoomsOpen(true)}
             aria-label="Browse rooms"
-            className="group relative flex flex-col items-center w-24 sm:w-28 md:w-32 hover:-translate-y-1 transition-luxe"
+            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 hover:-translate-y-1 transition-luxe"
           >
             <span aria-hidden className="h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full border-[2.5px] border-primary bg-transparent shadow-gold -mb-1.5 relative z-10 drop-shadow-[0_0_6px_hsl(var(--primary)/0.7)]" />
             <span aria-hidden className="h-2 w-[2px] bg-primary/70 -mb-1 z-10" />
-            <div className="relative w-full h-28 sm:h-32 md:h-36 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] group-hover:shadow-glow transition-luxe">
+            <div className="relative w-full h-24 sm:h-28 md:h-32 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] group-hover:shadow-glow transition-luxe">
               <span aria-hidden className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.35),transparent_60%)] opacity-80" />
               <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tl from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative w-full bg-gradient-gold py-1.5 flex items-center justify-center gap-1.5">
