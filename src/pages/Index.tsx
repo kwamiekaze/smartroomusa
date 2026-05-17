@@ -74,8 +74,22 @@ const Index = () => {
 
   useEffect(() => {
     const handler = () => setRoomsOpen(true);
+    const tourHandler = () => setTourOpen(true);
     window.addEventListener("rooms-intro:open", handler);
-    return () => window.removeEventListener("rooms-intro:open", handler);
+    window.addEventListener("tour:open", tourHandler);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("tour") === "1") {
+        setTourOpen(true);
+        params.delete("tour");
+        const qs = params.toString();
+        window.history.replaceState({}, "", window.location.pathname + (qs ? `?${qs}` : "") + window.location.hash);
+      }
+    }
+    return () => {
+      window.removeEventListener("rooms-intro:open", handler);
+      window.removeEventListener("tour:open", tourHandler);
+    };
   }, []);
 
   const [submitting, setSubmitting] = useState(false);

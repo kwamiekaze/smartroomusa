@@ -5,14 +5,15 @@ import { WeatherPill } from "@/components/WeatherPill";
 import { triggerReturnToLobby } from "@/components/SplashScreen";
 
 const links = [
+  { href: "/rooms", label: "Rooms" },
+  { href: "/?tour=1", label: "Book a Room" },
+  { href: "/auth", label: "Sign in" },
   { href: "/#requirements", label: "Move-In" },
   { href: "/#cost", label: "Pricing" },
   { href: "/#included", label: "Included" },
-  { href: "/rooms", label: "Rooms" },
   { href: "/#experience", label: "Experience" },
   { href: "/#faq", label: "FAQ" },
-  { href: "/#booking", label: "Book a Room" },
-  { href: "/auth", label: "Sign in" },
+  { href: "tel:4049973763", label: "Contact Us" },
 ];
 
 export const Navbar = () => {
@@ -49,6 +50,7 @@ export const Navbar = () => {
           <div className="container py-4 flex flex-col gap-3">
             {links.map((l) => {
               const isRooms = l.href === "/rooms";
+              const isBook = l.label === "Book a Room";
               return (
                 <a
                   key={l.href}
@@ -58,6 +60,10 @@ export const Navbar = () => {
                       e.preventDefault();
                       window.dispatchEvent(new CustomEvent("rooms-intro:open"));
                     }
+                    if (isBook && pathname === "/") {
+                      e.preventDefault();
+                      window.dispatchEvent(new CustomEvent("tour:open"));
+                    }
                     setOpen(false);
                   }}
                   className="text-cream py-2 hover:text-primary transition-smooth"
@@ -66,7 +72,6 @@ export const Navbar = () => {
                 </a>
               );
             })}
-            <a href="tel:4049973763" onClick={() => setOpen(false)} className="text-primary py-2">Call (404) 997-3763</a>
           </div>
         </div>
       )}
