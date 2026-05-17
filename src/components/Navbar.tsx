@@ -10,6 +10,7 @@ const links = [
   { href: "/#experience", label: "Experience" },
   { href: "/#faq", label: "FAQ" },
   { href: "/#booking", label: "Book a Room" },
+  { href: "/admin", label: "Admin" },
 ];
 
 export const Navbar = () => {
