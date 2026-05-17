@@ -47,7 +47,7 @@ const Auth = () => {
           options: { emailRedirectTo: `${window.location.origin}/pending` },
         });
         if (error) throw error;
-        toast.success("Account created", { description: "Your account is pending approval." });
+        toast.success("Account created", { description: "You're set as a Pending Applicant until an admin assigns your role." });
         if (data.session?.user) await routeForUser(data.session.user.id);
         else navigate("/pending", { replace: true });
       } else {
