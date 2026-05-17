@@ -72,9 +72,35 @@ const Index = () => {
   const [tourOpen, setTourOpen] = useState(false);
   const [roomsOpen, setRoomsOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success("Booking request received", { description: "We'll reach out shortly to confirm your move-in." });
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      name: String(fd.get("name") || "").trim(),
+      phone: String(fd.get("phone") || "").trim(),
+      email: String(fd.get("email") || "").trim(),
+      movein: String(fd.get("movein") || "").trim(),
+      income: String(fd.get("income") || "").trim(),
+      message: String(fd.get("message") || "").trim(),
+      source: "booking_form" as const,
+    };
+    if (!payload.name || !payload.phone || !payload.email) {
+      toast.error("Please complete the required fields.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { submitBooking } = await import("@/lib/bookings");
+      await submitBooking(payload);
+      (e.target as HTMLFormElement).reset();
+      toast.success("Booking request received", { description: "We'll reach out shortly to confirm your move-in." });
+    } catch (err: any) {
+      toast.error(err?.message || "Could not submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
