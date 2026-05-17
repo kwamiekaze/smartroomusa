@@ -118,43 +118,49 @@ const Index = () => {
 
         <div className="flex-1" />
 
-        {/* Schedule a Tour — calendar-shaped CTA, bottom-left */}
+        {/* Schedule a Tour — luxe gold CTA, bottom-left */}
         <div className="absolute z-10 left-4 bottom-6 sm:left-6 sm:bottom-8 md:left-10 md:bottom-10">
           <button
             type="button"
             onClick={() => setTourOpen(true)}
             aria-label="Schedule a tour"
-            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 rounded-xl overflow-hidden bg-card/90 backdrop-blur-md border border-primary/50 shadow-gold hover:-translate-y-1 hover:shadow-glow transition-luxe"
+            className="group relative flex flex-col items-center w-24 sm:w-28 md:w-32 h-28 sm:h-32 md:h-36 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] hover:-translate-y-1 hover:shadow-glow transition-luxe"
           >
-            <div className="w-full bg-gradient-gold py-1 flex items-center justify-center gap-1">
+            <span aria-hidden className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.35),transparent_60%)] opacity-80" />
+            <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative w-full bg-gradient-gold py-1.5 flex items-center justify-center gap-1.5">
               <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
-              <span className="text-[9px] sm:text-[10px] font-semibold tracking-widest text-primary-foreground uppercase">Tour</span>
+              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.3em] text-primary-foreground uppercase">Tour</span>
               <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
             </div>
-            <div className="px-2 py-1.5 sm:py-2 flex flex-col items-center">
-              <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-primary mb-0.5" />
-              <span className="font-serif text-cream text-[11px] sm:text-xs leading-tight text-center">Schedule<br/>a Tour</span>
+            <div className="relative flex-1 w-full px-2 py-2 flex flex-col items-center justify-center">
+              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1 drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" strokeWidth={1.5} />
+              <span className="font-serif italic text-cream text-[12px] sm:text-sm leading-tight text-center tracking-wide">Schedule<br/>a&nbsp;Tour</span>
             </div>
           </button>
         </div>
 
-        {/* Rooms — SR keychain CTA, bottom-right */}
+        {/* Browse Rooms — keychain CTA, bottom-right (matches tour button dimensions) */}
         <div className="absolute z-10 right-4 bottom-6 sm:right-6 sm:bottom-8 md:right-10 md:bottom-10">
           <button
             type="button"
             onClick={() => setRoomsOpen(true)}
             aria-label="Browse rooms"
-            className="group relative flex flex-col items-center w-20 sm:w-24 md:w-28 hover:-translate-y-1 transition-luxe"
+            className="group relative flex flex-col items-center w-24 sm:w-28 md:w-32 hover:-translate-y-1 transition-luxe"
           >
-            <span aria-hidden className="h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full border-[2.5px] border-primary bg-transparent shadow-gold -mb-1.5 relative z-10" />
+            <span aria-hidden className="h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full border-[2.5px] border-primary bg-transparent shadow-gold -mb-1.5 relative z-10 drop-shadow-[0_0_6px_hsl(var(--primary)/0.7)]" />
             <span aria-hidden className="h-2 w-[2px] bg-primary/70 -mb-1 z-10" />
-            <div className="relative w-full rounded-2xl overflow-hidden border border-primary/60 shadow-gold bg-gradient-to-b from-[#1a0f08] via-[#3a2418] to-[#1a0f08] group-hover:shadow-glow transition-luxe">
-              <div className="w-full bg-gradient-gold py-1 flex items-center justify-center">
-                <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-primary-foreground">SR</span>
+            <div className="relative w-full h-28 sm:h-32 md:h-36 rounded-2xl overflow-hidden border border-primary/60 shadow-gold ring-1 ring-primary/30 bg-gradient-to-b from-[#1a0f08] via-[#2a1810] to-[#1a0f08] group-hover:shadow-glow transition-luxe">
+              <span aria-hidden className="pointer-events-none absolute -inset-px rounded-2xl bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.35),transparent_60%)] opacity-80" />
+              <span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tl from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative w-full bg-gradient-gold py-1.5 flex items-center justify-center gap-1.5">
+                <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
+                <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.3em] text-primary-foreground uppercase">Browse</span>
+                <span className="h-1 w-0.5 rounded-full bg-primary-foreground/80" />
               </div>
-              <div className="px-2 py-1.5 sm:py-2 flex flex-col items-center">
-                <Key className="h-4 w-4 sm:h-5 sm:w-5 text-primary mb-0.5" strokeWidth={2} />
-                <span className="font-serif text-cream text-[11px] sm:text-xs leading-tight text-center">Rooms</span>
+              <div className="relative flex-1 px-2 py-2 flex flex-col items-center justify-center">
+                <Key className="h-5 w-5 sm:h-6 sm:w-6 text-primary mb-1 drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" strokeWidth={1.5} />
+                <span className="font-serif italic text-cream text-[12px] sm:text-sm leading-tight text-center tracking-wide">Our<br/>Rooms</span>
               </div>
             </div>
           </button>
