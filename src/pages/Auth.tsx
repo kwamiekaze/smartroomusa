@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Home } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { triggerReturnToLobby } from "@/components/SplashScreen";
@@ -15,29 +15,45 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
+  const routeForUser = async (userId: string) => {
+    const { data: roleRow } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .maybeSingle();
+    if (roleRow) {
+      navigate("/admin", { replace: true });
+    } else {
+      navigate("/pending", { replace: true });
+    }
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate("/admin", { replace: true });
+      if (data.session) routeForUser(data.session.user.id);
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/admin` },
+          options: { emailRedirectTo: `${window.location.origin}/pending` },
         });
         if (error) throw error;
-        toast.success("Account created", { description: "You're signed in." });
-        navigate("/admin", { replace: true });
+        toast.success("Account created", { description: "Your account is pending approval." });
+        if (data.session?.user) await routeForUser(data.session.user.id);
+        else navigate("/pending", { replace: true });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate("/admin", { replace: true });
+        if (data.session?.user) await routeForUser(data.session.user.id);
       }
     } catch (err: any) {
       toast.error(err?.message || "Authentication failed");
@@ -57,9 +73,9 @@ const Auth = () => {
       </button>
 
       <div className="w-full max-w-md p-8 rounded-2xl bg-card border border-primary/30 shadow-elegant">
-        <h1 className="font-serif text-3xl text-cream text-center mb-2">Admin Sign In</h1>
+        <h1 className="font-serif text-3xl text-cream text-center mb-2">Sign in</h1>
         <p className="text-center text-muted-foreground text-sm mb-6">
-          Master accounts only. Submissions are visible after signing in.
+          New accounts begin as <span className="text-primary">Pending Applicant</span> until an admin assigns a role.
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -75,15 +91,12 @@ const Auth = () => {
           </Button>
           <p className="text-center text-sm text-muted-foreground">
             {mode === "signin" ? (
-              <>First time? <button type="button" onClick={() => setMode("signup")} className="text-primary hover:underline">Create your master account</button></>
+              <>First time? <button type="button" onClick={() => setMode("signup")} className="text-primary hover:underline">Create an account</button></>
             ) : (
               <>Already have an account? <button type="button" onClick={() => setMode("signin")} className="text-primary hover:underline">Sign in</button></>
             )}
           </p>
         </form>
-        <p className="mt-6 text-xs text-center text-muted-foreground">
-          Admin access is automatically granted to <span className="text-cream">smartroomusa@gmail.com</span> and <span className="text-cream">kwamiekaze@gmail.com</span>.
-        </p>
       </div>
     </div>
   );

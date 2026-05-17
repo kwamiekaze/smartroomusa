@@ -73,6 +73,14 @@ export const SplashScreen = () => {
         onEnded={dismiss}
         className="h-full w-full object-cover"
       />
+      {isReturn && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute bottom-3 right-3 text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/70 font-light drop-shadow-md animate-pulse"
+        >
+          Tap to continue
+        </span>
+      )}
     </div>
   );
 };
