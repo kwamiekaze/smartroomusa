@@ -66,7 +66,7 @@ export const Navbar = () => {
                     }
                     setOpen(false);
                   }}
-                  className="text-cream py-2 hover:text-primary transition-smooth"
+                  className={`py-2 transition-smooth ${l.label === "Contact Us" ? "text-primary font-semibold hover:underline" : "text-cream hover:text-primary"}`}
                 >
                   {l.label}
                 </a>

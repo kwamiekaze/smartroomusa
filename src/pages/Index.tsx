@@ -392,7 +392,7 @@ const Index = () => {
                 {submitting ? "Submitting…" : "Submit Booking Request"}
               </Button>
               <p className="text-xs text-center text-muted-foreground">
-                Or call us directly at <a href={PHONE_HREF} className="text-primary hover:underline">{PHONE_DISPLAY}</a>
+                Call/Text 24/7 <a href={PHONE_HREF} className="text-primary font-semibold hover:underline ml-1">CALL NOW</a>
               </p>
             </form>
           </Reveal>
@@ -436,7 +436,7 @@ const Index = () => {
             </div>
             <p className="font-serif italic text-champagne">Come stay with us</p>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <a href={PHONE_HREF} className="hover:text-primary transition-smooth">{PHONE_DISPLAY}</a>
+              <a href={PHONE_HREF} className="text-primary hover:underline transition-smooth font-medium">Contact Us</a>
               <span>·</span>
               <span>© {new Date().getFullYear()} Smart Room USA</span>
             </div>
