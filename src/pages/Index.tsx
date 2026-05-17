@@ -72,6 +72,12 @@ const Index = () => {
   const [tourOpen, setTourOpen] = useState(false);
   const [roomsOpen, setRoomsOpen] = useState(false);
 
+  useEffect(() => {
+    const handler = () => setRoomsOpen(true);
+    window.addEventListener("rooms-intro:open", handler);
+    return () => window.removeEventListener("rooms-intro:open", handler);
+  }, []);
+
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
