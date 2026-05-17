@@ -1,36 +1,25 @@
-import heroImage from "@/assets/hero-lobby.jpg";
-
 interface HeroMediaProps {
-  /** Optional video src for future swap-in. When provided, renders a looping video instead of the image. */
+  /** Optional video src. When provided, renders a looping video. */
   videoSrc?: string;
   poster?: string;
 }
 
 /**
  * Cinematic hero media container.
- * Maintains stable aspect ratio + overlay so an image can later be swapped for a looped video
- * without breaking the layout.
+ * Renders a looping muted video. No fallback poster image is used so the
+ * previous lobby placeholder never flashes during loading.
  */
-export const HeroMedia = ({ videoSrc, poster = heroImage }: HeroMediaProps) => {
+export const HeroMedia = ({ videoSrc }: HeroMediaProps) => {
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {videoSrc ? (
+    <div className="absolute inset-0 overflow-hidden bg-background">
+      {videoSrc && (
         <video
           className="h-full w-full object-cover"
           src={videoSrc}
-          poster={poster}
           autoPlay
           loop
           muted
           playsInline
-        />
-      ) : (
-        <img
-          src={heroImage}
-          alt="Smart Room USA luxury lobby with warm gold lighting"
-          className="h-full w-full object-cover"
-          width={1536}
-          height={1024}
         />
       )}
       {/* Subtle bottom fade only — keep hero video unobstructed */}
