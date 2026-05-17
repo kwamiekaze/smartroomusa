@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Home, Phone, MapPin, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
@@ -26,6 +26,14 @@ function RoomGallery({ room }: { room: Room }) {
   }
 
   const go = (n: number) => setI((i + n + imgs.length) % imgs.length);
+
+  useEffect(() => {
+    if (imgs.length <= 1) return;
+    const id = window.setInterval(() => {
+      setI((prev) => (prev + 1) % imgs.length);
+    }, 4000);
+    return () => window.clearInterval(id);
+  }, [imgs.length]);
 
   return (
     <div
