@@ -33,7 +33,7 @@ export const Navbar = () => {
             {links.map((l) => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-cream py-2 hover:text-primary transition-smooth">{l.label}</a>
             ))}
-            <a href="tel:4040000000" onClick={() => setOpen(false)} className="text-primary py-2">Call (404) 000-0000</a>
+            <a href="tel:4049973763" onClick={() => setOpen(false)} className="text-primary py-2">Call (404) 997-3763</a>
           </div>
         </div>
       )}
