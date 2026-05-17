@@ -5,14 +5,15 @@ import { WeatherPill } from "@/components/WeatherPill";
 import { triggerReturnToLobby } from "@/components/SplashScreen";
 
 const links = [
+  { href: "/rooms", label: "Rooms" },
+  { href: "/?tour=1", label: "Book a Room" },
+  { href: "/auth", label: "Sign in" },
   { href: "/#requirements", label: "Move-In" },
   { href: "/#cost", label: "Pricing" },
   { href: "/#included", label: "Included" },
-  { href: "/rooms", label: "Rooms" },
   { href: "/#experience", label: "Experience" },
   { href: "/#faq", label: "FAQ" },
-  { href: "/#booking", label: "Book a Room" },
-  { href: "/auth", label: "Sign in" },
+  { href: "tel:4049973763", label: "Contact Us" },
 ];
 
 export const Navbar = () => {
