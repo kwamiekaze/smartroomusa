@@ -17,7 +17,12 @@ interface BookingPayload {
   roomId?: string;
 }
 
-const MASTERS = ["smartroomusa@gmail.com", "kwamiekaze@gmail.com"];
+// NOTE: Until a custom sending domain is verified with Resend, the test
+// sender (`onboarding@resend.dev`) can only deliver to the account owner's
+// verified address (kwamiekaze@gmail.com). Sending to any other address
+// returns a 403 validation_error and the email is silently dropped.
+// Keep this list to the verified address so notifications actually arrive.
+const MASTERS = ["kwamiekaze@gmail.com"];
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
