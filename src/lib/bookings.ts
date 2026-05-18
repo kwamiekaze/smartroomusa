@@ -16,9 +16,12 @@ export interface BookingSubmission {
  * Returns the inserted booking id on success.
  */
 export async function submitBooking(payload: BookingSubmission) {
-  const { data, error } = await supabase
+  const id = (globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`) as string;
+
+  const { error } = await supabase
     .from("bookings")
     .insert({
+      id,
       name: payload.name,
       phone: payload.phone,
       email: payload.email,
@@ -27,20 +30,18 @@ export async function submitBooking(payload: BookingSubmission) {
       message: payload.message || null,
       source: payload.source || "booking_form",
       room_id: payload.roomId || null,
-    })
-    .select("id")
-    .single();
+    });
 
   if (error) throw error;
 
   // Fire-and-forget email (don't block UX on failure)
   supabase.functions
     .invoke("send-booking-email", {
-      body: { id: data.id, ...payload },
+      body: { id, ...payload },
     })
     .then(({ error: emailErr }) => {
       if (emailErr) console.warn("Notification email failed", emailErr);
     });
 
-  return data.id as string;
+  return id;
 }
