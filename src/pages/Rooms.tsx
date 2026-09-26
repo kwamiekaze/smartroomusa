@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Home, Phone, MapPin, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
@@ -102,6 +102,16 @@ const PHONE_HREF = "tel:4049973763";
 
 const Rooms = () => {
   const [tourOpen, setTourOpen] = useState(false);
+  const [city, setCity] = useState("All");
+  const [visible, setVisible] = useState(24);
+  const cities = useMemo(
+    () => ["All", ...Array.from(new Set(rooms.map((r) => r.city))).sort()],
+    [],
+  );
+  const filtered = useMemo(
+    () => (city === "All" ? rooms : rooms.filter((r) => r.city === city)),
+    [city],
+  );
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -125,8 +135,20 @@ const Rooms = () => {
             </p>
           </div>
 
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {cities.map((c) => (
+              <button
+                key={c}
+                onClick={() => { setCity(c); setVisible(24); }}
+                className={`text-xs px-3 py-1.5 rounded-full border transition-luxe ${c === city ? "border-primary bg-primary/15 text-primary" : "border-border/60 text-cream/80 hover:border-primary/50"}`}
+              >
+                {c === "All" ? `All cities (${rooms.length})` : c}
+              </button>
+            ))}
+          </div>
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {rooms.map((room, i) => (
+            {filtered.slice(0, visible).map((room, i) => (
               <Reveal key={room.id} delay={(i % 6) * 60}>
                 <article className="group h-full flex flex-col rounded-xl overflow-hidden bg-card border border-border/60 shadow-card hover:border-primary/50 hover:-translate-y-1 transition-luxe">
                   <div className="relative aspect-[4/3] overflow-hidden bg-gradient-wood">
@@ -144,6 +166,9 @@ const Rooms = () => {
                         <span>{room.location}</span>
                       </p>
                     )}
+                    {room.details && (
+                      <p className="mt-1 text-xs text-cream/70">{room.details}</p>
+                    )}
 
                     <div className="mt-4 grid grid-cols-2 gap-3">
                       <div className="rounded-lg border border-border/60 p-3">
@@ -155,6 +180,13 @@ const Rooms = () => {
                         <p className="mt-1 text-cream font-semibold text-sm">{room.moveInCost}</p>
                       </div>
                     </div>
+                    {(room.biweeklyRent || room.monthlyRent) && (
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        {room.biweeklyRent && <>Bi-weekly {room.biweeklyRent}</>}
+                        {room.biweeklyRent && room.monthlyRent && " · "}
+                        {room.monthlyRent && <>Monthly {room.monthlyRent}</>}
+                      </p>
+                    )}
 
                     {room.amenities.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
@@ -172,6 +204,9 @@ const Rooms = () => {
                     <p className="mt-4 text-sm text-muted-foreground leading-relaxed line-clamp-3">
                       {room.description}
                     </p>
+                    {room.photoNote && (
+                      <p className="mt-2 text-[11px] italic text-muted-foreground/80">{room.photoNote}</p>
+                    )}
 
                     <div className="mt-6 flex flex-col sm:flex-row gap-3 pt-2">
                       <Button
@@ -193,6 +228,14 @@ const Rooms = () => {
               </Reveal>
             ))}
           </div>
+
+          {visible < filtered.length && (
+            <div className="mt-10 text-center">
+              <Button variant="outline" className="border-primary/40 text-cream hover:bg-primary/10" onClick={() => setVisible((v) => v + 24)}>
+                Show more rooms ({filtered.length - visible} more)
+              </Button>
+            </div>
+          )}
 
           <p className="mt-14 text-center text-sm text-muted-foreground">
             Don't see what you're looking for? Call us at
