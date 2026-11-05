@@ -16,6 +16,18 @@ export type Database = {
     Tables: {
       bookings: {
         Row: {
+          assigned_to: string | null
+          assigned_by: string | null
+          assigned_at: string | null
+          status: string
+          req_id_verified: boolean
+          req_income_verified: boolean
+          req_week_rent_paid: boolean
+          req_deposit_paid: boolean
+          req_admin_fee_paid: boolean
+          staff_notes: string | null
+          last_contacted_at: string | null
+          updated_at: string
           created_at: string
           email: string
           email_error: string | null
@@ -30,6 +42,18 @@ export type Database = {
           source: string
         }
         Insert: {
+          assigned_to?: string | null
+          assigned_by?: string | null
+          assigned_at?: string | null
+          status?: string
+          req_id_verified?: boolean
+          req_income_verified?: boolean
+          req_week_rent_paid?: boolean
+          req_deposit_paid?: boolean
+          req_admin_fee_paid?: boolean
+          staff_notes?: string | null
+          last_contacted_at?: string | null
+          updated_at?: string
           created_at?: string
           email: string
           email_error?: string | null
@@ -44,6 +68,18 @@ export type Database = {
           source?: string
         }
         Update: {
+          assigned_to?: string | null
+          assigned_by?: string | null
+          assigned_at?: string | null
+          status?: string
+          req_id_verified?: boolean
+          req_income_verified?: boolean
+          req_week_rent_paid?: boolean
+          req_deposit_paid?: boolean
+          req_admin_fee_paid?: boolean
+          staff_notes?: string | null
+          last_contacted_at?: string | null
+          updated_at?: string
           created_at?: string
           email?: string
           email_error?: string | null
@@ -127,6 +163,12 @@ export type Database = {
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: {
+        Args: {
           _user_id: string
         }
         Returns: boolean

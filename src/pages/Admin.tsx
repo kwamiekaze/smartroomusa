@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, LogOut, Mail, Phone, Calendar, MessageSquare, FileText, Check, X, UserCog } from "lucide-react";
+import { Home, LogOut, Check, X, UserCog, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { triggerReturnToLobby } from "@/components/SplashScreen";
 import { Button } from "@/components/ui/button";
@@ -8,19 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-
-interface Booking {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  movein_date: string | null;
-  income: string | null;
-  message: string | null;
-  source: string;
-  room_id: string | null;
-  created_at: string;
-}
+import { BookingCard, StaffMember } from "@/components/BookingCard";
+import { Booking, fetchBookings } from "@/lib/bookingWorkflow";
 
 interface Profile {
   id: string;
@@ -42,6 +31,12 @@ const Admin = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [userEmail, setUserEmail] = useState<string>("");
+  const [filter, setFilter] = useState<BookingFilter>("all");
+
+  const loadBookings = async () => {
+    try { setBookings(await fetchBookings()); }
+    catch (e) { toast.error((e as Error)?.message || "Failed to load bookings"); }
+  };
 
   const loadProfiles = async () => {
     const { data, error } = await supabase
@@ -68,12 +63,7 @@ const Admin = () => {
       }
       setIsAdmin(true);
 
-      const [{ data: rows, error }, _] = await Promise.all([
-        supabase.from("bookings").select("*").order("created_at", { ascending: false }),
-        loadProfiles(),
-      ]);
-      if (error) toast.error(error.message);
-      else if (mounted) setBookings((rows || []) as Booking[]);
+      await Promise.all([loadBookings(), loadProfiles()]);
       if (mounted) setLoading(false);
     };
     init();
@@ -118,6 +108,12 @@ const Admin = () => {
   if (!isAdmin) return null;
 
   const pendingCount = profiles.filter((p) => p.status === "pending").length;
+  const staff: StaffMember[] = profiles
+    .filter((p) => p.status === "approved" && p.assigned_role === "staff")
+    .map((p) => ({ user_id: p.user_id, email: p.email }));
+  const unassignedCount = bookings.filter((b) => !b.assigned_to).length;
+  const filtered = bookings.filter((b) => FILTERS[filter].test(b));
+  const onBookingChanged = (nb: Booking) => setBookings((list) => list.map((x) => (x.id === nb.id ? nb : x)));
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -141,7 +137,7 @@ const Admin = () => {
       <main className="container py-10">
         <div className="mb-8">
           <h1 className="font-serif text-4xl text-cream">Admin Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Manage bookings and member access.</p>
+          <p className="text-muted-foreground mt-1">Manage member access and assign booking requests to staff for follow-up.</p>
         </div>
 
         <Tabs defaultValue="users">
@@ -149,7 +145,10 @@ const Admin = () => {
             <TabsTrigger value="users">
               Users {pendingCount > 0 && <span className="ml-2 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px]">{pendingCount}</span>}
             </TabsTrigger>
-            <TabsTrigger value="bookings">Bookings ({bookings.length})</TabsTrigger>
+            <TabsTrigger value="bookings">
+              Bookings ({bookings.length})
+              {unassignedCount > 0 && <span className="ml-2 px-2 py-0.5 rounded-full bg-amber-500 text-background text-[10px]">{unassignedCount} unassigned</span>}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="users">
@@ -157,50 +156,33 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="bookings">
-            {bookings.length === 0 ? (
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(FILTERS) as BookingFilter[]).map((k) => {
+                  const count = bookings.filter((b) => FILTERS[k].test(b)).length;
+                  return (
+                    <button
+                      key={k}
+                      onClick={() => setFilter(k)}
+                      className={`px-3 py-1.5 rounded-full text-xs border transition ${filter === k ? "bg-primary text-primary-foreground border-primary" : "border-border/60 text-muted-foreground hover:text-cream hover:border-primary/50"}`}
+                    >
+                      {FILTERS[k].label} · {count}
+                    </button>
+                  );
+                })}
+              </div>
+              <Button variant="outline" size="sm" onClick={loadBookings} className="border-primary/40 text-cream">
+                <RefreshCw className="h-4 w-4 mr-1.5" /> Refresh
+              </Button>
+            </div>
+            {filtered.length === 0 ? (
               <div className="p-10 rounded-xl border border-border/60 bg-card text-center text-muted-foreground">
-                No submissions yet.
+                {bookings.length === 0 ? "No submissions yet." : "Nothing in this view."}
               </div>
             ) : (
               <div className="grid gap-4">
-                {bookings.map((b) => (
-                  <article key={b.id} className="p-6 rounded-xl bg-card border border-border/60 hover:border-primary/50 transition">
-                    <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
-                      <div>
-                        <h2 className="font-serif text-2xl text-cream">{b.name}</h2>
-                        <p className="text-xs uppercase tracking-[0.2em] text-primary mt-1">
-                          {b.source === "tour" ? "Tour request" : "Booking"} · {new Date(b.created_at).toLocaleString()}
-                        </p>
-                      </div>
-                      {b.room_id && (
-                        <span className="px-3 py-1 rounded-full text-[11px] uppercase tracking-[0.2em] border border-primary/40 text-primary">
-                          Room: {b.room_id}
-                        </span>
-                      )}
-                    </div>
-                    <div className="grid sm:grid-cols-2 gap-3 text-sm">
-                      <Field icon={<Mail className="h-4 w-4" />} label="Email">
-                        <a href={`mailto:${b.email}`} className="text-cream hover:text-primary">{b.email}</a>
-                      </Field>
-                      <Field icon={<Phone className="h-4 w-4" />} label="Phone">
-                        <a href={`tel:${b.phone}`} className="text-cream hover:text-primary">{b.phone}</a>
-                      </Field>
-                      {b.movein_date && (
-                        <Field icon={<Calendar className="h-4 w-4" />} label="Move-in"><span className="text-cream">{b.movein_date}</span></Field>
-                      )}
-                      {b.income && (
-                        <Field icon={<FileText className="h-4 w-4" />} label="Proof of income"><span className="text-cream">{b.income}</span></Field>
-                      )}
-                    </div>
-                    {b.message && (
-                      <div className="mt-4 p-4 rounded-lg bg-background/60 border border-border/40">
-                        <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-                          <MessageSquare className="h-3.5 w-3.5" /> Message
-                        </div>
-                        <p className="text-cream/90 whitespace-pre-wrap">{b.message}</p>
-                      </div>
-                    )}
-                  </article>
+                {filtered.map((b) => (
+                  <BookingCard key={b.id} booking={b} staff={staff} onChanged={onBookingChanged} />
                 ))}
               </div>
             )}
@@ -268,8 +250,8 @@ const UserRow = ({ profile, onApprove, onReject }: {
         </div>
       </div>
 
-      {profile.status !== "approved" && profile.assigned_role !== "admin" && (
-        <div className="grid sm:grid-cols-[1fr_auto_auto] gap-3 items-start">
+      {profile.assigned_role !== "admin" && (
+        <div className={`grid gap-3 items-start ${profile.status === "approved" ? "sm:grid-cols-[1fr_auto]" : "sm:grid-cols-[1fr_auto_auto]"}`}>
           <div className="flex items-center gap-2">
             <UserCog className="h-4 w-4 text-primary" />
             <Select value={role} onValueChange={setRole}>
@@ -281,12 +263,20 @@ const UserRow = ({ profile, onApprove, onReject }: {
               </SelectContent>
             </Select>
           </div>
-          <Button variant="gold" onClick={() => onApprove(profile, role)} disabled={!role}>
-            <Check className="h-4 w-4 mr-1.5" /> Approve
-          </Button>
-          <Button variant="outline" onClick={() => setShowReject((s) => !s)} className="border-destructive/50 text-destructive">
-            <X className="h-4 w-4 mr-1.5" /> Reject
-          </Button>
+          {profile.status === "approved" ? (
+            <Button variant="outline" onClick={() => onApprove(profile, role)} disabled={!role || role === profile.assigned_role} className="border-primary/40 text-cream">
+              <UserCog className="h-4 w-4 mr-1.5" /> Change role
+            </Button>
+          ) : (
+            <>
+              <Button variant="gold" onClick={() => onApprove(profile, role)} disabled={!role}>
+                <Check className="h-4 w-4 mr-1.5" /> Approve
+              </Button>
+              <Button variant="outline" onClick={() => setShowReject((s) => !s)} className="border-destructive/50 text-destructive">
+                <X className="h-4 w-4 mr-1.5" /> Reject
+              </Button>
+            </>
+          )}
         </div>
       )}
 
@@ -318,14 +308,13 @@ const UserRow = ({ profile, onApprove, onReject }: {
   );
 };
 
-const Field = ({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) => (
-  <div className="flex items-start gap-2">
-    <span className="text-primary mt-0.5">{icon}</span>
-    <div>
-      <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</p>
-      <div className="mt-0.5">{children}</div>
-    </div>
-  </div>
-);
+type BookingFilter = "all" | "unassigned" | "assigned" | "booked";
+
+const FILTERS: Record<BookingFilter, { label: string; test: (b: Booking) => boolean }> = {
+  all: { label: "All", test: () => true },
+  unassigned: { label: "Unassigned", test: (b) => !b.assigned_to },
+  assigned: { label: "With staff", test: (b) => !!b.assigned_to && !["booked", "closed", "not_qualified"].includes(b.status) },
+  booked: { label: "Booked", test: (b) => b.status === "booked" },
+};
 
 export default Admin;

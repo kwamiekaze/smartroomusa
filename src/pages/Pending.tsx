@@ -50,6 +50,10 @@ const Pending = () => {
         .eq("user_id", session.user.id)
         .maybeSingle();
       if (!mounted) return;
+      if (data?.status === "approved" && data?.assigned_role === "staff") {
+        navigate("/staff", { replace: true });
+        return;
+      }
       if (error) toast.error(error.message);
       setProfile((data as Profile) ?? { status: "pending", assigned_role: null, rejection_reason: null, email: session.user.email || "" });
       setLoading(false);

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { dashboardRouteFor } from "@/lib/bookingWorkflow";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -16,17 +17,7 @@ const Auth = () => {
   const [busy, setBusy] = useState(false);
 
   const routeForUser = async (userId: string) => {
-    const { data: roleRow } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId)
-      .eq("role", "admin")
-      .maybeSingle();
-    if (roleRow) {
-      navigate("/admin", { replace: true });
-    } else {
-      navigate("/pending", { replace: true });
-    }
+    navigate(await dashboardRouteFor(userId), { replace: true });
   };
 
   useEffect(() => {
